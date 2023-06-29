@@ -1,0 +1,26 @@
+.productCardLeftPanel,
+.productCardRightPanel {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px;
+  align-items: center;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: whitesmoke;
+  padding: 5px;
+}
+.productCard {
+  display: flex;
+  flex-direction: row;
+}
+
+.productsWrapper {
+  border: solid 1px;
+  background-color: aliceblue;
+}
+
+ul {
+  appearance: none;
+}
