@@ -4,8 +4,9 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
-import { User } from '../classes/User';
-import { db, userConverter, fv } from '../firebase';
+import { Product } from '../classes/Product';
+import { User, userConverter } from '../classes/User';
+import { db, fv } from '../firebase';
 
 export function Cart() {
   const params = useParams();
@@ -15,7 +16,18 @@ export function Cart() {
     .withConverter(userConverter);
   const [value, loading, error] = useDocumentData<User>(query);
 
-  function notifyOwnersOfCart() {}
+  function notifyOwnersOfCart() {
+    value.cart.forEach((p: Product) => {
+      console.log(p.id);
+      const productRef = db.collection('products').doc(p.id);
+      productRef.get().then((snapshot) => {
+        const data = snapshot.data();
+        console.log(data);
+        if (data.quantity > p.quantity) {
+        }
+      });
+    });
+  }
   return (
     <>
       <h1>Cart</h1>

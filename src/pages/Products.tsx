@@ -2,8 +2,8 @@ import * as React from 'react';
 import './Products.css';
 import { Link } from 'react-router-dom';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { db, productConverter, fv } from '../firebase';
-import { Product } from '../classes/Product';
+import { db, fv } from '../firebase';
+import { Product, productConverter } from '../classes/Product';
 
 export function Products({ user }) {
   const query = db.collection('products').withConverter(productConverter);
@@ -34,6 +34,7 @@ export function ProductCard({ product, user }) {
         .doc(user.uid)
         .update({
           cart: fv.arrayUnion({
+            id: product.id,
             name: product.name,
             quantity: selectedQuantity,
           }),

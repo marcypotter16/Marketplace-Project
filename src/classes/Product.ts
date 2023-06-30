@@ -8,8 +8,9 @@ export class Product {
   readonly id: string;
   image: string;
   category: string[];
+  publisherId: string;
 
-  constructor(n, d, p, q, id, im, c) {
+  constructor(n, d, p, q, id, im, c, pid) {
     this.name = n;
     this.price = p;
     this.description = d;
@@ -17,14 +18,33 @@ export class Product {
     this.id = id;
     this.image = im;
     this.category = c;
-  }
-
-  stringifyCategory() {
-    return this.category.join('-');
-  }
-
-  static arrayfyStringedCategory(stringedCategory: string) {
-    if (stringedCategory) return stringedCategory.split('-');
-    return null;
+    this.publisherId = pid;
   }
 }
+
+export const productConverter = {
+  toFirestore: (product: Product) => {
+    return {
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      quantity: product.quantity,
+      category: product.category,
+      publisherId: product.publisherId,
+    };
+  },
+  fromFirestore: (snapshot, options) => {
+    const data = snapshot.data(options);
+    const product = new Product(
+      data.name,
+      data.description,
+      data.price,
+      data.quantity,
+      snapshot.id,
+      data.image,
+      data.category,
+      data.publisherId
+    );
+    return product;
+  },
+};

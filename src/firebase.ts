@@ -23,43 +23,5 @@ firebase.initializeApp({
 export const db = firebase.firestore();
 export const auth = firebase.auth();
 export const fv = firebase.firestore.FieldValue;
-export const productConverter = {
-  toFirestore: (product: Product) => {
-    return {
-      name: product.name,
-      description: product.description,
-      price: product.price,
-      quantity: product.quantity,
-      category: product.stringifyCategory(),
-    };
-  },
-  fromFirestore: (snapshot, options) => {
-    const data = snapshot.data(options);
-    const category = Product.arrayfyStringedCategory(data.category);
-    const product = new Product(
-      data.name,
-      data.description,
-      data.price,
-      data.quantity,
-      snapshot.id,
-      data.image,
-      category
-    );
-    return product;
-  },
-};
-export const userConverter = {
-  toFirestore: (user: User) => {
-    return {
-      displayName: user.displayName,
-      email: user.email,
-      uid: user.uid,
-      cart: user.cart,
-    };
-  },
-  fromFirestore: (snapshot, options) => {
-    const data = snapshot.data(options);
-    const user = new User(data.displayName, data.email, data.cart, snapshot.id);
-    return user;
-  },
-};
+
+

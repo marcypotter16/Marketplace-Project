@@ -11,3 +11,19 @@ export class User {
     this.uid = uid;
   }
 }
+
+export const userConverter = {
+  toFirestore: (user: User) => {
+    return {
+      displayName: user.displayName,
+      email: user.email,
+      uid: user.uid,
+      cart: user.cart,
+    };
+  },
+  fromFirestore: (snapshot, options) => {
+    const data = snapshot.data(options);
+    const user = new User(data.displayName, data.email, data.cart, snapshot.id);
+    return user;
+  },
+};
