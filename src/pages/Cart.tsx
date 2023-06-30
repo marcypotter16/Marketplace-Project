@@ -4,6 +4,7 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
+import { Order, orderConverter } from '../classes/Order';
 import { Product } from '../classes/Product';
 import { User, userConverter } from '../classes/User';
 import { db, fv } from '../firebase';
@@ -17,6 +18,7 @@ export function Cart() {
   const [value, loading, error] = useDocumentData<User>(query);
 
   function notifyOwnersOfCart() {
+    // Update each product quantity
     value.cart.forEach((p: Product) => {
       console.log(p.id);
       const productRef = db.collection('products').doc(p.id);
@@ -25,13 +27,35 @@ export function Cart() {
         console.log(data);
         if (data.quantity > p.quantity) {
           productRef.update({
-            quantity: fv.increment(-p.quantity)
-          })
+            quantity: fv.increment(-p.quantity),
+          });
         }
       });
     });
-    const userRef = db.collection('users').doc(params.id)
-    
+
+    // Empty cart
+    const userRef = db.collection('users').doc(params.id);
+    userRef.update({
+      cart: [],
+    });
+
+    // Add order to the orders collection
+    db.collection('orders')
+      .withConverter(orderConverter)
+      .add(new Order('', params.id, value.cart))
+      .then((snapshot) => {
+        // Notify all owners that you ordered stuff
+        const idList = value.cart.map(
+          (product: Product) => product.publisherId
+        );
+        idList.forEach((id: string) => {
+          db.collection('users')
+            .doc(id)
+            .set({
+              notifications: fv.arrayUnion(snapshot.id),
+            });
+        });
+      });
   }
   return (
     <>

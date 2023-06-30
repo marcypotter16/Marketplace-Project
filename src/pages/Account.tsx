@@ -7,6 +7,7 @@ export function Account({ user }) {
     return (
       <>
         <h1>Ciao, {user.displayName}</h1>
+        <h4>Notifiche</h4>
       </>
     );
   } else {
