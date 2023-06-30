@@ -6,6 +6,7 @@ import { Account } from './pages/Account';
 import { Cart } from './pages/Cart';
 import { Home } from './pages/Home';
 import { Products } from './pages/Products';
+import { Publish } from './pages/Publish';
 import { SignIn } from './pages/SignIn';
 import './style.css';
 
@@ -35,6 +36,9 @@ export default function App() {
               <li>
                 <Link to={`/account/${info.user.uid}/cart`}>Cart</Link>
               </li>
+              <li>
+                <Link to={`/account/${info.user.uid}/publish`}>Publish</Link>
+              </li>
             </>
           )}
         </ul>
@@ -54,10 +58,8 @@ export default function App() {
           path="/account/:id"
           element={<Account user={info ? info.user : null} />}
         />
-        <Route
-          path="/account/:id/cart"
-          element={<Cart />}
-        />
+        <Route path="/account/:id/cart" element={<Cart />} />
+        <Route path="/account/:id/publish" element={<Publish />} />
       </Routes>
     </>
   );

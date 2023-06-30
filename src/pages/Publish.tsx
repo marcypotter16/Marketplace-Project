@@ -3,21 +3,29 @@ import { Product } from '../classes/Product';
 
 export const Publish = () => {
   const [input, setInput] = React.useState(new Product());
-  function submit() {
+  function submit(e) {
+    e.preventDefault();
     console.log(input);
   }
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setInput((prevInput) => ({
-      ...prevInput,
-      [name]: value,
-    }));
+    if (name == 'category') {
+      setInput((prevInput) => ({
+        ...prevInput,
+        category: value.split(','),
+      }));
+    } else {
+      setInput((prevInput) => ({
+        ...prevInput,
+        [name]: value,
+      }));
+    }
   }
   return (
     <>
       <h1>Publish products</h1>
-      <form onSubmit={submit}>
+      <form onSubmit={(e) => submit(e)}>
         <label>
           Nome:
           <input
@@ -46,14 +54,24 @@ export const Publish = () => {
           />
         </label>
         <label>
-          Nome:
+          Prezzo unitario:
           <input
-            type="text"
-            name="name"
-            value={input.name}
+            type="number"
+            name="price"
+            value={input.price}
             onChange={(e) => handleChange(e)}
           />
         </label>
+        <label>
+          Categorie:
+          <input
+            type="text"
+            name="category"
+            value={input.category}
+            onChange={(e) => handleChange(e)}
+          />
+        </label>
+        <input type="submit" />
       </form>
     </>
   );
