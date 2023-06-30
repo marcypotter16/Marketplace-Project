@@ -10,7 +10,16 @@ export class Product {
   category: string[];
   publisherId: string;
 
-  constructor(n, d, p, q, id, im, c, pid) {
+  constructor(
+    n = '',
+    d = '',
+    p = 0,
+    q = 0,
+    id = '',
+    im = '',
+    c = [],
+    pid = ''
+  ) {
     this.name = n;
     this.price = p;
     this.description = d;

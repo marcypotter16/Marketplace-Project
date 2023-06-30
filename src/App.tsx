@@ -43,11 +43,7 @@ export default function App() {
         <Route
           path="/"
           element={
-            info ? (
-              <Home />
-            ) : (
-              <SignIn signInWithGoogle={SignInWithGoogle} info={info} />
-            )
+            info ? <Home /> : <SignIn signInWithGoogle={SignInWithGoogle} />
           }
         />
         <Route
@@ -60,7 +56,7 @@ export default function App() {
         />
         <Route
           path="/account/:id/cart"
-          element={<Cart user={info ? info.user : null} />}
+          element={<Cart />}
         />
       </Routes>
     </>

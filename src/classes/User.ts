@@ -1,14 +1,16 @@
 export class User {
   displayName: string;
   email: string;
-  cart: [];
+  cart: any[];
   uid: string;
+  notifications: any[];
 
-  constructor(dn, e, c, uid) {
+  constructor(dn, e, c = [], uid, n = []) {
     this.displayName = dn;
     this.email = e;
     this.cart = c;
     this.uid = uid;
+    this.notifications = n;
   }
 }
 
