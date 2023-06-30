@@ -24,9 +24,14 @@ export function Cart() {
         const data = snapshot.data();
         console.log(data);
         if (data.quantity > p.quantity) {
+          productRef.update({
+            quantity: fv.increment(-p.quantity)
+          })
         }
       });
     });
+    const userRef = db.collection('users').doc(params.id)
+    
   }
   return (
     <>

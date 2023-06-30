@@ -1,9 +1,9 @@
 import React = require('react');
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { User } from '../classes/User';
-import { db, userConverter } from '../firebase';
+import { User, userConverter } from '../classes/User';
+import { db } from '../firebase';
 
-export function SignIn({ signInWithGoogle, info }) {
+export function SignIn({ signInWithGoogle }) {
   const query = db.collection('users').withConverter(userConverter);
   const [data] = useCollectionData<User>(query);
 
