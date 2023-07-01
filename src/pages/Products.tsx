@@ -8,16 +8,13 @@ import { Product, productConverter } from '../classes/Product';
 export function Products({ user }) {
   const query = db.collection('products').withConverter(productConverter);
   const [products] = useCollectionData<Product>(query);
-  if (products) {
-    console.log(products);
-  }
   return (
     <>
       <h1>Products Page</h1>
       {products &&
         products.map((product) => {
           return (
-            <div className="productsWrapper">
+            <div className="productsWrapper" key={product.id}>
               <ProductCard product={product} user={user} />
             </div>
           );
@@ -37,6 +34,7 @@ export function ProductCard({ product, user }) {
             id: product.id,
             name: product.name,
             quantity: selectedQuantity,
+            publisherId: product.publisherId,
           }),
         });
     }

@@ -24,19 +24,12 @@ export function Cart() {
       const productRef = db.collection('products').doc(p.id);
       productRef.get().then((snapshot) => {
         const data = snapshot.data();
-        console.log(data);
         if (data.quantity > p.quantity) {
           productRef.update({
             quantity: fv.increment(-p.quantity),
           });
         }
       });
-    });
-
-    // Empty cart
-    const userRef = db.collection('users').doc(params.id);
-    userRef.update({
-      cart: [],
     });
 
     // Add order to the orders collection
@@ -46,8 +39,9 @@ export function Cart() {
       .then((snapshot) => {
         // Notify all owners that you ordered stuff
         const idList = value.cart.map(
-          (product: Product) => product.publisherId
+          (simpleProduct) => simpleProduct.publisherId
         );
+        console.warn(idList, value.cart);
         idList.forEach((id: string) => {
           db.collection('users')
             .doc(id)
@@ -56,6 +50,12 @@ export function Cart() {
             });
         });
       });
+
+    // Empty cart
+    const userRef = db.collection('users').doc(params.id);
+    userRef.update({
+      cart: [],
+    });
   }
   return (
     <>
