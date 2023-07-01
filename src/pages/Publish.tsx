@@ -1,11 +1,19 @@
 import React = require('react');
-import { Product } from '../classes/Product';
+import { useParams } from 'react-router-dom';
+import { Product, productConverter } from '../classes/Product';
+import { db } from '../firebase';
 
 export const Publish = () => {
+  const params = useParams();
   const [input, setInput] = React.useState(new Product());
   function submit(e) {
     e.preventDefault();
     console.log(input);
+    input.publisherId = params.id;
+    db.collection('products')
+      .withConverter(productConverter)
+      .add(input)
+      .then((res) => alert('Added: ' + input.name));
   }
 
   function handleChange(e) {
