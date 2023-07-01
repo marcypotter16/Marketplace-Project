@@ -11,14 +11,20 @@ export function SignIn({ signInWithGoogle }) {
     signInWithGoogle().then((value) => {
       console.log('Log 8 ', value);
       const user = value.user;
-      db.collection('users').doc(user.uid).set(
-        {
-          displayName: user.displayName,
-          email: user.email,
-          image: user.photoURL,
-        },
-        { merge: true }
-      );
+      const userRef = db.collection('users').doc(user.uid)
+      userRef.get().then((snapshot) => {
+        if (!snapshot.exists) {
+          userRef.set(
+            {
+              displayName: user.displayName,
+              email: user.email,
+              image: user.photoURL,
+              notifications: []
+            },
+            { merge: true }
+          );
+        }
+      })
     });
   }
   return (

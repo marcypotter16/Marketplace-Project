@@ -41,7 +41,7 @@ export function Cart() {
 
     // Add order to the orders collection
     db.collection('orders')
-      .withConverter(orderConverter)
+      .withConverter<Order>(orderConverter)
       .add(new Order('', params.id, value.cart))
       .then((snapshot) => {
         // Notify all owners that you ordered stuff
