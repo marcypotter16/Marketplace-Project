@@ -18,18 +18,46 @@ export default function App() {
   return (
     <>
       <div className="flex flex-row p-2 bg-blue-900 text-gray-400">
-        <NavLink to="/products" className="navBtn">
+        <NavLink
+          to="/products"
+          className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+        >
           Products
         </NavLink>
-        <NavLink to="/">Home</NavLink>
+        <NavLink
+          to="/"
+          className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+        >
+          Home
+        </NavLink>
         {info && (
           <>
-            <button onClick={signOut}>Sign Out</button>
-            <Link to={`/account/${info.user.uid}`}>Account</Link>
+            <button
+              onClick={signOut}
+              className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            >
+              Sign Out
+            </button>
+            <Link
+              to={`/account/${info.user.uid}`}
+              className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            >
+              Account
+            </Link>
 
-            <Link to={`/account/${info.user.uid}/cart`}>Cart</Link>
+            <Link
+              to={`/account/${info.user.uid}/cart`}
+              className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            >
+              Cart
+            </Link>
 
-            <Link to={`/account/${info.user.uid}/publish`}>Publish</Link>
+            <Link
+              to={`/account/${info.user.uid}/publish`}
+              className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            >
+              Publish
+            </Link>
           </>
         )}
       </div>
