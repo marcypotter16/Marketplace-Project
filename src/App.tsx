@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { Link, Route, Routes } from 'react-router-dom';
+import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { auth } from './firebase';
 import { Account } from './pages/Account';
 import { Cart } from './pages/Cart';
@@ -17,31 +17,21 @@ export default function App() {
   };
   return (
     <>
-      <div>
-        <ul>
-          <li>
-            <Link to="/products">Products</Link>
-          </li>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          {info && (
-            <>
-              <li>
-                <button onClick={signOut}>Sign Out</button>
-              </li>
-              <li>
-                <Link to={`/account/${info.user.uid}`}>Account</Link>
-              </li>
-              <li>
-                <Link to={`/account/${info.user.uid}/cart`}>Cart</Link>
-              </li>
-              <li>
-                <Link to={`/account/${info.user.uid}/publish`}>Publish</Link>
-              </li>
-            </>
-          )}
-        </ul>
+      <div className="flex flex-row p-2 bg-blue-900 text-gray-400">
+        <NavLink to="/products" className="navBtn">
+          Products
+        </NavLink>
+        <NavLink to="/">Home</NavLink>
+        {info && (
+          <>
+            <button onClick={signOut}>Sign Out</button>
+            <Link to={`/account/${info.user.uid}`}>Account</Link>
+
+            <Link to={`/account/${info.user.uid}/cart`}>Cart</Link>
+
+            <Link to={`/account/${info.user.uid}/publish`}>Publish</Link>
+          </>
+        )}
       </div>
       <main>
         <Routes>

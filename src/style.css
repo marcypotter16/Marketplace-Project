@@ -1,8 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 h1,
 p {
   font-family: Lato;
 }
 
 main {
-  background-color: darkgray;
+  background-color: rgb(70, 70, 70);
+}
+
+.navBtn {
+  @apply px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md;
 }
