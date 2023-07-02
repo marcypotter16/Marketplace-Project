@@ -1,5 +1,4 @@
 import * as React from 'react';
-import './Products.css';
 import { Link } from 'react-router-dom';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db, fv } from '../firebase';
@@ -10,7 +9,7 @@ export function Products({ user }) {
   const [products] = useCollectionData<Product>(query);
   return (
     <>
-      <h1>Products Page</h1>
+      <h1 className="text-white">Products Page</h1>
       {products &&
         products.map((product) => {
           return (
@@ -40,7 +39,7 @@ export function ProductCard({ product, user }) {
     }
   }
   return (
-    <div className="productCard">
+    <div className="bg-white">
       <div className="productCardLeftPanel">
         <h3>{product.name}</h3>
         {product.description}

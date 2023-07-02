@@ -43,24 +43,26 @@ export default function App() {
           )}
         </ul>
       </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            info ? <Home /> : <SignIn signInWithGoogle={SignInWithGoogle} />
-          }
-        />
-        <Route
-          path="/products"
-          element={<Products user={info ? info.user : null} />}
-        />
-        <Route
-          path="/account/:id"
-          element={<Account user={info ? info.user : null} />}
-        />
-        <Route path="/account/:id/cart" element={<Cart />} />
-        <Route path="/account/:id/publish" element={<Publish />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              info ? <Home /> : <SignIn signInWithGoogle={SignInWithGoogle} />
+            }
+          />
+          <Route
+            path="/products"
+            element={<Products user={info ? info.user : null} />}
+          />
+          <Route
+            path="/account/:id"
+            element={<Account user={info ? info.user : null} />}
+          />
+          <Route path="/account/:id/cart" element={<Cart />} />
+          <Route path="/account/:id/publish" element={<Publish />} />
+        </Routes>
+      </main>
     </>
   );
 }
