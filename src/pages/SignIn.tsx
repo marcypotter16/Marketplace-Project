@@ -28,10 +28,10 @@ export function SignIn({ signInWithGoogle }) {
     });
   }
   return (
-    <div className="flex flex-col text-center justify-center p-4">
-      <h1 className="uppercase font-bold my-5">Sign In</h1>
+    <div className="container mx-auto flex flex-col text-center justify-center p-4">
+      <h1 className="text-gray-200 uppercase font-bold my-5">Sign In</h1>
       <button
-        className="px-2 py-1 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+        className="text-gray-400 px-2 py-1 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
         onClick={signIn}
       >
         Sign in with Google

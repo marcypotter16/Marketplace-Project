@@ -15,11 +15,12 @@ export function Account({ user }) {
       .doc(user.uid);
     const [userDoc] = useDocumentData<User>(query);
     return (
-      <>
-        <h1>Ciao, {user.displayName}</h1>
+      <div className="m-2 rounded border">
+        <h1 className="text-white">Ciao, {user.displayName}</h1>
+
         <h4>Notifiche</h4>
         {userDoc && userDoc.notifications.map((n) => <p>{n}</p>)}
-      </>
+      </div>
     );
   } else {
     return <Home />;

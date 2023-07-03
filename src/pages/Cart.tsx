@@ -45,9 +45,12 @@ export function Cart() {
         idList.forEach((id: string) => {
           db.collection('users')
             .doc(id)
-            .set({
-              notifications: fv.arrayUnion(snapshot.id),
-            });
+            .set(
+              {
+                notifications: fv.arrayUnion(snapshot.id),
+              },
+              { merge: true }
+            );
         });
       });
 

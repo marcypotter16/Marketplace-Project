@@ -12,14 +12,14 @@ export function Products({ user }) {
       <h1 className="text-gray-100 text-xl font-bold text-center py-2">
         Products Page
       </h1>
-      {products &&
-        products.map((product) => {
-          return (
-            <div className="flex" key={product.id}>
-              <ProductCard product={product} user={user} />
-            </div>
-          );
-        })}
+      <div className="grid grid-cols-3 m-2 rounded flex flex-col justify-center border shadow">
+        {products &&
+          products.map((product) => {
+            return (
+              <ProductCard product={product} user={user} key={product.id} />
+            );
+          })}
+      </div>
     </div>
   );
 }
@@ -27,6 +27,7 @@ export function Products({ user }) {
 export function ProductCard({ product, user }) {
   const [selectedQuantity, setSelectedQuantity] = React.useState(0);
   const [navigateToSignIn, setNavigateToSignIn] = React.useState(false);
+  const [showMessage, setShowMessage] = React.useState(false);
   function addToCart() {
     if (user) {
       db.collection('users')
@@ -38,6 +39,9 @@ export function ProductCard({ product, user }) {
             quantity: selectedQuantity,
             publisherId: product.publisherId,
           }),
+        })
+        .then((res) => {
+          setShowMessage(true);
         });
     } else {
       alert('Devi prima effettuare il login.');
@@ -45,15 +49,15 @@ export function ProductCard({ product, user }) {
     }
   }
   return (
-    <div className="bg-white p-2 rounded-lg m-2 flex">
-      <div className="mr-4 border py-1 px-3 text-center rounded">
-        <h3 className="text-xl font-bold text-center bg-blue-100 rounded-lg shadow-inner">
+    <div className="bg-gray-500 p-2 rounded-lg m-2 flex">
+      <div className="bg-gray-800 mr-4 border py-1 px-3 text-center rounded">
+        <h3 className="text-xl font-bold text-center bg-blue-400 rounded-lg shadow-inner px-3">
           {product.name}
         </h3>
-        <p className="text-sm text-gray-400">{product.description}</p>
-        <h4 className="text-gray-400 text-sm">Prezzo: {product.price} €</h4>
-        <p className="text-gray-400 text-sm">Disponibili: {product.quantity}</p>
-        <h4 className="text-gray-400 text-sm">
+        <p className="bg-gray-800 text-sm text-gray-400">{product.description}</p>
+        <h4 className="bg-gray-800 text-gray-400 text-sm">Prezzo: {product.price} €</h4>
+        <p className="bg-gray-800 text-gray-400 text-sm">Disponibili: {product.quantity}</p>
+        <h4 className="bg-gray-800 text-gray-400 text-sm">
           {product.quantity > 0 ? 'disponibile' : 'non disponibile'}
         </h4>
       </div>
@@ -86,6 +90,9 @@ export function ProductCard({ product, user }) {
           Add to cart
         </button>
       </div>
+      {showMessage && (
+        <p className="text-white">Elemento aggiunto al carrello.</p>
+      )}
       {navigateToSignIn && <Navigate to="/" />}
     </div>
   );
