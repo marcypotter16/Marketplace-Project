@@ -4,6 +4,7 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
+import { Request } from '../classes/Notification';
 import { Order, orderConverter } from '../classes/Order';
 import { Product } from '../classes/Product';
 import { User, userConverter } from '../classes/User';
@@ -50,9 +51,11 @@ export function Cart() {
               {
                 notifications: fv.arrayUnion({
                   productId: product.id,
-                  name: product.name,
+                  productName: product.name,
                   quantity: product.quantity,
-                  price: product.price,
+                  unitPrice: product.price,
+                  buyerId: params.id,
+                  message: 'richiesta di ciboh',
                 }),
               },
               { merge: true }
@@ -65,6 +68,8 @@ export function Cart() {
     userRef.update({
       cart: [],
     });
+
+    alert('Ordine piazzato');
   }
   return (
     <>
