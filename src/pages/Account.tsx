@@ -9,7 +9,6 @@ import { Home } from './Home';
 
 export function Account({ user }) {
   if (user) {
-    console.log(user.uid == 'awFfIe1GvzZiGQpBZtXNu45Sa7u2');
     const query = db
       .collection('users')
       .withConverter(userConverter)

@@ -24,8 +24,8 @@ export const Publish = () => {
         category: value.split(','),
       }));
     } else if (name == 'photos') {
-      let photoURLs = input.photoURLs
-      photoURLs.push(':)')
+      let photoURLs = input.photoURLs;
+      photoURLs.push(':)');
       setInput((prevInput) => ({
         ...prevInput,
         photoURLs: photoURLs,
@@ -86,8 +86,10 @@ export const Publish = () => {
             onChange={(e) => handleChange(e)}
           />
         </label>
-        <label htmlFor="">Carica foto:</label>
-        <input type="file" name="">
+        <label htmlFor="">
+          Carica foto:
+          <input type="file" name="" />
+        </label>
         <input type="submit" />
       </form>
     </>
