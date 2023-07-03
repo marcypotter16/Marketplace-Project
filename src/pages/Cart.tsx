@@ -38,16 +38,22 @@ export function Cart() {
       .add(new Order('', params.id, value.cart))
       .then((snapshot) => {
         // Notify all owners that you ordered stuff
+        // delete this
         const idList = value.cart.map(
           (simpleProduct) => simpleProduct.publisherId
         );
         console.warn(idList, value.cart);
-        idList.forEach((id: string) => {
+        value.cart.forEach((product) => {
           db.collection('users')
-            .doc(id)
+            .doc(product.publisherId)
             .set(
               {
-                notifications: fv.arrayUnion(snapshot.id),
+                notifications: fv.arrayUnion({
+                  productId: product.id,
+                  name: product.name,
+                  quantity: product.quantity,
+                  price: product.price,
+                }),
               },
               { merge: true }
             );

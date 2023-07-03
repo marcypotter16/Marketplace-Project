@@ -38,6 +38,7 @@ export function ProductCard({ product, user }) {
             name: product.name,
             quantity: selectedQuantity,
             publisherId: product.publisherId,
+            price: product.price,
           }),
         })
         .then((res) => {
@@ -54,9 +55,15 @@ export function ProductCard({ product, user }) {
         <h3 className="text-xl font-bold text-center bg-blue-400 rounded-lg shadow-inner px-3">
           {product.name}
         </h3>
-        <p className="bg-gray-800 text-sm text-gray-400">{product.description}</p>
-        <h4 className="bg-gray-800 text-gray-400 text-sm">Prezzo: {product.price} €</h4>
-        <p className="bg-gray-800 text-gray-400 text-sm">Disponibili: {product.quantity}</p>
+        <p className="bg-gray-800 text-sm text-gray-400">
+          {product.description}
+        </p>
+        <h4 className="bg-gray-800 text-gray-400 text-sm">
+          Prezzo: {product.price} €
+        </h4>
+        <p className="bg-gray-800 text-gray-400 text-sm">
+          Disponibili: {product.quantity}
+        </p>
         <h4 className="bg-gray-800 text-gray-400 text-sm">
           {product.quantity > 0 ? 'disponibile' : 'non disponibile'}
         </h4>
