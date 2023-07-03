@@ -9,6 +9,7 @@ export class Product {
   image: string;
   category: string[];
   publisherId: string;
+  photoURLs: string[];
 
   constructor(
     n = '',
@@ -18,7 +19,8 @@ export class Product {
     id = '',
     im = '',
     c = [],
-    pid = ''
+    pid = '',
+    purls = []
   ) {
     this.name = n;
     this.price = p;
@@ -28,6 +30,7 @@ export class Product {
     this.image = im;
     this.category = c;
     this.publisherId = pid;
+    this.photoURLs = purls;
   }
 }
 
@@ -40,6 +43,7 @@ export const productConverter = {
       quantity: product.quantity,
       category: product.category,
       publisherId: product.publisherId,
+      photoURLs: product.photoURLs,
     };
   },
   fromFirestore: (snapshot, options) => {
@@ -52,7 +56,8 @@ export const productConverter = {
       snapshot.id,
       data.image,
       data.category,
-      data.publisherId
+      data.publisherId,
+      data.photoURLs
     );
     return product;
   },

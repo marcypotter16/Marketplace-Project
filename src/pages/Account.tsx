@@ -36,7 +36,7 @@ export function Account({ user }) {
 
 function OrderCard({ notification }) {
   return (
-    <div className="flex flex-col text-center text-white p-2">
+    <div className="flex border flex-col text-center text-white p-2">
       <p>Prodotto: {notification.name}</p>
       <p>Quantità: {notification.quantity}</p>
       <p>Prezzo totale: {notification.quantity * notification.price}</p>
