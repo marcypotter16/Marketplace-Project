@@ -12,7 +12,7 @@ export function Products({ user }) {
       <h1 className="text-gray-100 text-xl font-bold text-center py-2">
         Products Page
       </h1>
-      <div className="grid grid-cols-3 m-2 rounded flex flex-col justify-center border shadow">
+      <div className="grid md:grid-cols-3 sm:grid-cols-1 mx-10 my-5 m-2 rounded border shadow">
         {products &&
           products.map((product) => {
             return (
@@ -50,7 +50,8 @@ export function ProductCard({ product, user }) {
     }
   }
   return (
-    <div className="bg-gray-500 p-2 rounded-lg m-2 flex">
+    // Container
+    <div className="bg-gray-500 p-2 rounded-lg m-2 flex justify-evenly">
       <div className="bg-gray-800 mr-4 border py-1 px-3 text-center rounded">
         <h3 className="text-xl font-bold text-center bg-blue-400 rounded-lg shadow-inner px-3">
           {product.name}
@@ -68,7 +69,7 @@ export function ProductCard({ product, user }) {
           {product.quantity > 0 ? 'disponibile' : 'non disponibile'}
         </h4>
       </div>
-      <div className="flex flex-col border p-1">
+      <div className="flex flex-col border p-1 rounded">
         <p className="text-center text-white font-bold">{selectedQuantity}</p>
         <div className="flex justify-evenly">
           <button

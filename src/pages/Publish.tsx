@@ -16,8 +16,10 @@ export const Publish = () => {
       .then((res) => alert('Added: ' + input.name));
   }
 
+  function manageImageUpload() {}
+
   function handleChange(e) {
-    const { name, value } = e.target;
+    const { name, value, file } = e.target;
     if (name == 'category') {
       setInput((prevInput) => ({
         ...prevInput,
@@ -25,6 +27,7 @@ export const Publish = () => {
       }));
     } else if (name == 'photos') {
       let photoURLs = input.photoURLs;
+      console.log(file);
       photoURLs.push(':)');
       setInput((prevInput) => ({
         ...prevInput,
@@ -88,10 +91,11 @@ export const Publish = () => {
         </label>
         <label htmlFor="">
           Carica foto:
-          <input type="file" name="" />
+          <input type="file" name="photos" />
         </label>
         <input type="submit" />
       </form>
     </>
   );
 };
+

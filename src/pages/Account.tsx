@@ -76,6 +76,9 @@ function OrderCard({ notification }) {
           {(notification.quantity * notification.unitPrice).toFixed(2)} €
         </p>
         <p>Prezzo unitario: {Number(notification.unitPrice).toFixed(2)} €</p>
+        <div className='flex space-x-2'>
+          <button>Pagato</button>
+        </div>
       </div>
       <div className="flex border flex-col text-center justify-center text-white p-2 m-2">
         <p>Richiedente: </p>
