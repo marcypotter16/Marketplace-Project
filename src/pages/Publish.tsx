@@ -2,24 +2,32 @@ import React = require('react');
 import { useParams } from 'react-router-dom';
 import { Product, productConverter } from '../classes/Product';
 import { db, storage } from '../firebase';
+import { v4 } from 'uuid';
 
 export const Publish = () => {
   const params = useParams();
   const [input, setInput] = React.useState(new Product());
+  var productId = v4();
   function submit(e) {
     e.preventDefault();
     console.log(input);
     input.publisherId = params.id;
     db.collection('products')
       .withConverter(productConverter)
-      .add(input)
+      .doc(productId)
+      .set(input)
       .then((res) => alert('Added: ' + input.name));
   }
 
-  function manageImageUpload() {}
+  function manageImageUpload(files: FileList) {
+    let today = new Date();
+    for (const file of files) {
+      storage.ref(`${today.getFullYear}/${params.id}/`);
+    }
+  }
 
   function handleChange(e) {
-    const { name, value, file } = e.target;
+    const { name, value, files } = e.target;
     if (name == 'category') {
       setInput((prevInput) => ({
         ...prevInput,
@@ -27,7 +35,7 @@ export const Publish = () => {
       }));
     } else if (name == 'photos') {
       let photoURLs = input.photoURLs;
-      console.log(file);
+      manageImageUpload(files);
       photoURLs.push(':)');
       setInput((prevInput) => ({
         ...prevInput,
@@ -92,7 +100,13 @@ export const Publish = () => {
         </label>
         <label>
           Carica foto:
-          <input type="file" name="photos" onChange={handleChange}/>
+          <input
+            type="file"
+            name="photos"
+            onChange={handleChange}
+            accept="image/png, image/jpg, image/jpeg"
+            multiple
+          />
         </label>
         <input type="submit" />
       </form>
