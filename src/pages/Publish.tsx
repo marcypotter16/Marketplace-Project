@@ -127,17 +127,20 @@ export const Publish = () => {
               value={input.category}
               onChange={(e) => handleChange(e)}
             />
+            <label className="text-gray-600 text-sm">
+              Separare le categorie con virgole, ad esempio: cibo,ortaggi,...
+            </label>
           </div>
 
           <div>
             <label
-              className="block mb-2 text-sm font-medium text-gray-400 dark:text-white"
+              className="block text-sm font-medium text-gray-400 dark:text-white"
               htmlFor="file_input"
             >
               Carica foto:
             </label>
             <input
-              className="block w-full text-sm border border-gray-300 rounded-lg file:mx cursor-pointer text-gray-400 focus:outline-none p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              className="block w-full text-sm border border-gray-300 rounded-lg file:mx cursor-pointer text-gray-600 focus:outline-none p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               id="file_input"
               type="file"
               name="photos"
