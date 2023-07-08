@@ -7,6 +7,7 @@ import { v4 } from 'uuid';
 export const Publish = () => {
   const params = useParams();
   const [input, setInput] = React.useState(new Product());
+  const [quantityType, setQuantityType] = React.useState('pz');
   const photoRef = React.useRef(null);
 
   function submit(e) {
@@ -80,8 +81,11 @@ export const Publish = () => {
           <div className="grid grid-cols-2 justify-between">
             <div className="flex flex-col w-2/3">
               <label className="text-gray-200">Quantità: </label>
-              <div className="flex border">
-                <DropdownMenu />
+              <div className="flex">
+                <DropdownMenu
+                  selected={quantityType}
+                  select={setQuantityType}
+                />
                 <input
                   className="border border-gray-400 text-white block py-2 px-4 w-full rounded-r focus:outline-none focus:border-teal-500"
                   type="number"
@@ -177,15 +181,15 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-function DropdownMenu() {
+function DropdownMenu({ selected, select }) {
   return (
     <Menu
       as="div"
-      className="flex items-center relative inline-block text-left"
+      className="flex flex-col items-center inline-block text-left"
     >
       <div className="flex items-center">
-        <Menu.Button className="flex justify-center rounded-l bg-blue-900 px-3 text-sm font-semibold text-gray-400 hover:bg-gray-50">
-          kg
+        <Menu.Button className="flex justify-center rounded-l bg-blue-900 px-3 py-2 text-sm font-semibold text-gray-400 hover:bg-gray-50">
+          {selected}
           <ChevronDownIcon
             className="-mr-1 ml-1 h-5 w-5 text-gray-400 bg-transparent"
             aria-hidden="true"
@@ -202,15 +206,20 @@ function DropdownMenu() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-10 z-12 mt-2 w-50 origin-top-left rounded-md focus:outline-none">
-          <div className="py-1">
+        <Menu.Items className="fixed mt-6 origin-top-left rounded-md border bg-black focus:outline-none">
+          <div className="bg-transparent">
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href="#"
+                  onClick={() => {
+                    console.log('KG');
+                    select('kg');
+                  }}
                   className={classNames(
-                    active ? 'bg-teal-400 text-gray-900' : 'text-gray-100',
-                    'rounded-t block px-4 py-2 text-sm'
+                    active
+                      ? 'bg-teal-400 text-gray-900'
+                      : 'text-gray-100 bg-transparent',
+                    'rounded-t  block px-4 text-xs  cursor-pointer'
                   )}
                 >
                   Kg
@@ -220,10 +229,13 @@ function DropdownMenu() {
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href="#"
+                  onClick={() => {
+                    console.log('Pz');
+                    select('pz');
+                  }}
                   className={classNames(
                     active ? 'bg-teal-400 text-gray-900' : 'text-gray-100',
-                    'block px-4 py-2 text-sm'
+                    'block px-4 text-xs cursor-pointer'
                   )}
                 >
                   Pz
@@ -233,10 +245,13 @@ function DropdownMenu() {
             <Menu.Item>
               {({ active }) => (
                 <a
-                  href="#"
+                  onClick={() => {
+                    console.log('HG');
+                    select('hg');
+                  }}
                   className={classNames(
                     active ? 'bg-teal-400 text-gray-900' : 'text-gray-100',
-                    'rounded-b block px-4 py-2 text-sm'
+                    'rounded-b block px-4 text-xs cursor-pointer'
                   )}
                 >
                   Hg
