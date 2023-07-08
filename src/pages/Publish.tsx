@@ -76,17 +76,21 @@ export const Publish = () => {
             />
           </div>
 
+          {/* QUANTITA E PREZZO */}
           <div className="grid grid-cols-2 justify-between">
             <div className="flex flex-col w-2/3">
               <label className="text-gray-200">Quantità: </label>
-              <input
-                className="border border-gray-400 text-white block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
-                type="number"
-                min="0"
-                name="quantity"
-                value={input.quantity}
-                onChange={(e) => handleChange(e)}
-              />
+              <div className="flex border">
+                <DropdownMenu />
+                <input
+                  className="border border-gray-400 text-white block py-2 px-4 w-full rounded-r focus:outline-none focus:border-teal-500"
+                  type="number"
+                  min="0"
+                  name="quantity"
+                  value={input.quantity}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
             </div>
 
             <div className="flex flex-col w-2/3">
@@ -118,6 +122,7 @@ export const Publish = () => {
             </div>
           </div>
 
+          {/* CATEGORIE */}
           <div>
             <label className="text-gray-200">Categorie: </label>
             <input
@@ -132,6 +137,7 @@ export const Publish = () => {
             </label>
           </div>
 
+          {/* FOTO */}
           <div>
             <label
               className="block text-sm font-medium text-gray-400 dark:text-white"
@@ -162,3 +168,84 @@ export const Publish = () => {
     </>
   );
 };
+
+import { Fragment } from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { ChevronDownIcon } from '@heroicons/react/20/solid';
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ');
+}
+
+function DropdownMenu() {
+  return (
+    <Menu
+      as="div"
+      className="flex items-center relative inline-block text-left"
+    >
+      <div className="flex items-center">
+        <Menu.Button className="flex justify-center rounded-l bg-blue-900 px-3 text-sm font-semibold text-gray-400 hover:bg-gray-50">
+          kg
+          <ChevronDownIcon
+            className="-mr-1 ml-1 h-5 w-5 text-gray-400 bg-transparent"
+            aria-hidden="true"
+          />
+        </Menu.Button>
+      </div>
+
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
+      >
+        <Menu.Items className="absolute right-10 z-12 mt-2 w-50 origin-top-left rounded-md focus:outline-none">
+          <div className="py-1">
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-teal-400 text-gray-900' : 'text-gray-100',
+                    'rounded-t block px-4 py-2 text-sm'
+                  )}
+                >
+                  Kg
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-teal-400 text-gray-900' : 'text-gray-100',
+                    'block px-4 py-2 text-sm'
+                  )}
+                >
+                  Pz
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className={classNames(
+                    active ? 'bg-teal-400 text-gray-900' : 'text-gray-100',
+                    'rounded-b block px-4 py-2 text-sm'
+                  )}
+                >
+                  Hg
+                </a>
+              )}
+            </Menu.Item>
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>
+  );
+}
