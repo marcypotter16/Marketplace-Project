@@ -23,6 +23,7 @@ export const db = firebase.firestore();
 export const auth = firebase.auth();
 export const fv = firebase.firestore.FieldValue;
 export const storage = firebase.storage();
+export const te = firebase.storage.TaskEvent;
 
 function emptyCollection(collectionName) {
   db.collection(collectionName)
@@ -34,4 +35,4 @@ function emptyCollection(collectionName) {
     });
 }
 
-// emptyCollection('orders');
+// emptyCollection('products');
