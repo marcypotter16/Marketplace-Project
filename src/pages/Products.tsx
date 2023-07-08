@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { db, fv } from '../firebase';
+import { db, fv, storage } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
 import { Navigate } from 'react-router-dom';
 
@@ -28,6 +28,14 @@ export function ProductCard({ product, user }) {
   const [selectedQuantity, setSelectedQuantity] = React.useState(0);
   const [navigateToSignIn, setNavigateToSignIn] = React.useState(false);
   const [showMessage, setShowMessage] = React.useState(false);
+  const [imageURLs, setImageURLs] = React.useState([]);
+  const today = new Date();
+  const imagesRef = storage.ref(
+    `${today.getFullYear()}/${product.publisherId}/${product.id}`
+  );
+  imagesRef.listAll().then((res) => {
+    setImageURLs((prev) => [...prev, res]);
+  });
   function addToCart() {
     if (user) {
       db.collection('users')
