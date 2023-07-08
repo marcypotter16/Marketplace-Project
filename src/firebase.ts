@@ -1,8 +1,7 @@
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import 'firebase/compat/auth';
-import { Product } from './classes/Product';
-import { User } from './classes/User';
+import 'firebase/compat/storage';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyBv3LVTlzNV4PsXlYbT4Eg8Y24o7n4lhvY',
@@ -23,6 +22,7 @@ firebase.initializeApp({
 export const db = firebase.firestore();
 export const auth = firebase.auth();
 export const fv = firebase.firestore.FieldValue;
+export const storage = firebase.storage();
 
 function emptyCollection(collectionName) {
   db.collection(collectionName)

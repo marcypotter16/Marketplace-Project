@@ -1,7 +1,7 @@
 import React = require('react');
 import { useParams } from 'react-router-dom';
 import { Product, productConverter } from '../classes/Product';
-import { db } from '../firebase';
+import { db, storage } from '../firebase';
 
 export const Publish = () => {
   const params = useParams();
@@ -33,6 +33,7 @@ export const Publish = () => {
         ...prevInput,
         photoURLs: photoURLs,
       }));
+      console.warn(input);
     } else {
       setInput((prevInput) => ({
         ...prevInput,
@@ -89,13 +90,12 @@ export const Publish = () => {
             onChange={(e) => handleChange(e)}
           />
         </label>
-        <label htmlFor="">
+        <label>
           Carica foto:
-          <input type="file" name="photos" />
+          <input type="file" name="photos" onChange={handleChange}/>
         </label>
         <input type="submit" />
       </form>
     </>
   );
 };
-
