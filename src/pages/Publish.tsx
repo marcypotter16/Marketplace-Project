@@ -54,12 +54,12 @@ export const Publish = () => {
           onSubmit={(e) => submit(e)}
         >
           <h1 className="text-3xl font-semibold text-white">
-            Publish products
+            Pubblica un prodotto
           </h1>
           <div>
             <label className="text-gray-200">Nome:</label>
             <input
-              className="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
+              className="border border-gray-400 text-white block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
               type="text"
               name="name"
               value={input.name}
@@ -69,7 +69,7 @@ export const Publish = () => {
           <div>
             <label className="text-gray-200">Descrizione: </label>
             <textarea
-              className="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
+              className="border border-gray-400 text-white block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
               name="description"
               value={input.description}
               onChange={(e) => handleChange(e)}
@@ -80,7 +80,7 @@ export const Publish = () => {
             <div className="flex flex-col w-2/3">
               <label className="text-gray-200">Quantità: </label>
               <input
-                className="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
+                className="border border-gray-400 text-white block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
                 type="number"
                 min="0"
                 name="quantity"
@@ -107,7 +107,7 @@ export const Publish = () => {
                   </svg>
                 </div>
                 <input
-                  className="border border-gray-400 block py-2 px-4 w-full rounded-r focus:outline-none focus:border-teal-500"
+                  className="border border-gray-400 block py-2 px-4 w-full rounded-r text-white focus:outline-none focus:border-teal-500"
                   type="number"
                   name="price"
                   min="0"
@@ -121,7 +121,7 @@ export const Publish = () => {
           <div>
             <label className="text-gray-200">Categorie: </label>
             <input
-              className="border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
+              className="border border-gray-400 text-white block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500"
               type="text"
               name="category"
               value={input.category}

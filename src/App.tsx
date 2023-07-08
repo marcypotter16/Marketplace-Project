@@ -21,13 +21,13 @@ export default function App() {
         <div className="border flex-1 flex-row p-2 bg-blue-900 text-gray-400 inline-block">
           <NavLink
             to="/products"
-            className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
           >
             Products
           </NavLink>
           <NavLink
             to="/"
-            className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
           >
             Home
           </NavLink>
@@ -35,27 +35,27 @@ export default function App() {
             <>
               <button
                 onClick={signOut}
-                className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
               >
                 Sign Out
               </button>
               <Link
                 to={`/account/${info.user.uid}`}
-                className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
               >
                 Account
               </Link>
 
               <Link
                 to={`/account/${info.user.uid}/cart`}
-                className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
               >
                 Cart
               </Link>
 
               <Link
                 to={`/account/${info.user.uid}/publish`}
-                className="px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
               >
                 Publish
               </Link>
