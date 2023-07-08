@@ -185,10 +185,10 @@ function DropdownMenu({ selected, select }) {
   return (
     <Menu
       as="div"
-      className="flex flex-col items-center inline-block text-left"
+      className="flex items-center inline-block text-left"
     >
       <div className="flex items-center">
-        <Menu.Button className="flex justify-center rounded-l bg-blue-900 px-3 py-2 text-sm font-semibold text-gray-400 hover:bg-gray-50">
+        <Menu.Button className="flex h-full justify-center rounded-l bg-blue-900 px-3 py-2 text-sm font-semibold text-gray-400 hover:bg-gray-50">
           {selected}
           <ChevronDownIcon
             className="-mr-1 ml-1 h-5 w-5 text-gray-400 bg-transparent"
@@ -206,7 +206,7 @@ function DropdownMenu({ selected, select }) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="fixed mt-6 origin-top-left rounded-md border bg-black focus:outline-none">
+        <Menu.Items className="absolute ml-12 origin-top-left rounded-md border bg-black focus:outline-none">
           <div className="bg-transparent">
             <Menu.Item>
               {({ active }) => (
