@@ -14,7 +14,7 @@ export function ProductPage() {
   const [product, loading, error] = useDocumentData<Product>(productRef);
 
   return (
-    <div>
+    <div className="">
       {loading && <h1>Loading...</h1>}
       {error && <h1>Error</h1>}
       {product && <div>{product.name}</div>}
