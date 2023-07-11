@@ -5,6 +5,7 @@ import { auth } from './firebase';
 import { Account } from './pages/Account';
 import { Cart } from './pages/Cart';
 import { Home } from './pages/Home';
+import { ProductPage } from './pages/Product';
 import { Products } from './pages/Products';
 import { Publish } from './pages/Publish';
 import { SignIn } from './pages/SignIn';
@@ -81,6 +82,7 @@ export default function App() {
             path="/products"
             element={<Products user={info ? info.user : null} />}
           />
+          <Route path="/products/:id" element={<ProductPage />} />
           <Route
             path="/account/:id"
             element={<Account user={info ? info.user : null} />}
