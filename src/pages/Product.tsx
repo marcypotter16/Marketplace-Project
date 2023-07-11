@@ -17,7 +17,13 @@ export function ProductPage() {
     <div className="">
       {loading && <h1>Loading...</h1>}
       {error && <h1>Error</h1>}
-      {product && <div>{product.name}</div>}
+      {product && (
+        <div className="px-2 py-20 text-white space-y-4">
+          <p>{product.name}</p>
+          <p>{product.description}</p>
+          <p>{product.publisherId}</p>
+        </div>
+      )}
     </div>
   );
 }

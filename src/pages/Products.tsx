@@ -2,7 +2,9 @@ import * as React from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db, fv, storage } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
+import { User, userConverter } from '../classes/User';
 import { Navigate, NavLink } from 'react-router-dom';
+import { ShoppingCartIcon } from '@heroicons/react/24/outline';
 import { v4 } from 'uuid';
 
 export function Products({ user }) {
@@ -30,6 +32,12 @@ export function ProductCard({ product, user }) {
   const [navigateToSignIn, setNavigateToSignIn] = React.useState(false);
   const [showMessage, setShowMessage] = React.useState(false);
   const [imageURLs, setImageURLs] = React.useState([]);
+
+  const query = db
+    .collection('users')
+    .doc(product.publisherId)
+    .withConverter(userConverter);
+  const [publisher, loading, error] = useCollectionData<User>(query);
   const today = new Date();
   React.useEffect(() => {
     const imageRef = storage.ref(
@@ -66,59 +74,57 @@ export function ProductCard({ product, user }) {
   }
   return (
     // Container
-    <div className="bg-gray-500 p-2 rounded-lg m-2 flex justify-evenly">
-      <div className="bg-gray-800 mr-4 border py-1 px-3 text-center rounded">
+    <div className="bg-gray-500 p-2 rounded-lg m-2 flex flex-col justify-evenly">
+      <div className="bg-gray-800 h-11/12 border text-center rounded-t-xl">
         {imageURLs && (
           <div className={`flex flex-row bg-transparent`}>
             {imageURLs.map((url) => (
               <img
                 src={url}
-                className="w-full overflow-hidden rounded m-1 mb-3 shadow-xl"
+                className="w-full border border-black overflow-hidden rounded-t-xl mb-1 shadow-xl"
                 key={v4()}
               />
             ))}
           </div>
         )}
-        <NavLink
-          to={`/products/${product.id}`}
-          className="text-xl text-white bg-transparent font-bold text-center px-3"
-        >
-          {product.name}
-        </NavLink>
-        <h4 className="bg-gray-800 text-gray-400 text-3xl">
-          {product.price} €
-        </h4>
-        <p className="bg-gray-800 text-gray-400 text-sm">
-          Disponibili: {product.quantity}
-        </p>
-      </div>
-      <div className="flex flex-col border p-1 rounded">
-        <p className="text-center text-white font-bold">{selectedQuantity}</p>
-        <div className="flex justify-evenly">
-          <button
-            className="border rounded-full text-white hover:bg-blue-500 hover:shadow px-2 my-2"
-            onClick={() => {
-              if (selectedQuantity < product.quantity)
-                setSelectedQuantity(selectedQuantity + 1);
-            }}
+        <div className="flex bg-gray-800 justify-around items-center">
+          <NavLink
+            to={`/products/${product.id}`}
+            className="text-xl text-white font-bold text-center px-3"
           >
-            +
-          </button>
-          <button
-            className="border rounded-full text-white hover:bg-blue-500 hover:shadow px-2 my-2"
-            onClick={() => {
-              if (selectedQuantity > 0)
-                setSelectedQuantity(selectedQuantity - 1);
-            }}
-          >
-            -
-          </button>
+            {product.name}
+          </NavLink>
+          <h4 className="bg-gray-800 text-gray-400 text-3xl">
+            {product.price} €
+          </h4>
+          <p className="bg-gray-800 text-gray-400 text-sm">
+            Disponibili: {product.quantity}
+          </p>
+          {publisher && (
+            <img src={publisher.image} alt={publisher.displayName} />
+          )}
         </div>
+      </div>
+
+      {/* --- SIDE PANEL --- */}
+      <div className="flex h-1/12 justify-around items-center border py-1 rounded-b-xl">
+        <input
+          type="number"
+          className="border rounded text-center text-white font-bold focus:border-teal-400"
+          placeholder={`${selectedQuantity}`}
+          onChange={(e) => {
+            if (
+              Number(e.target.value) <= product.quantity &&
+              Number(e.target.value) >= 0
+            )
+              setSelectedQuantity(Number(e.target.value));
+          }}
+        />
         <button
-          className="border rounded-full text-white hover:bg-blue-500 hover:shadow px-2 my-2"
+          className="flex w-12 h-12 border rounded-full text-white justify-center items-center hover:bg-blue-500 hover:shadow p-3 my-2"
           onClick={addToCart}
         >
-          Add to cart
+          <ShoppingCartIcon className="w-8 h-8 bg-transparent" />
         </button>
       </div>
       {showMessage && (
