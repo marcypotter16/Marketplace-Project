@@ -3,6 +3,7 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db, fv, storage } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
 import { Navigate, NavLink } from 'react-router-dom';
+import { v4 } from 'uuid';
 
 export function Products({ user }) {
   const query = db.collection('products').withConverter(productConverter);
@@ -73,6 +74,7 @@ export function ProductCard({ product, user }) {
               <img
                 src={url}
                 className="w-full overflow-hidden rounded m-1 mb-3 shadow-xl"
+                key={v4()}
               />
             ))}
           </div>

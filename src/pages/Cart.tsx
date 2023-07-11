@@ -1,8 +1,5 @@
 import React = require('react');
-import {
-  useCollectionData,
-  useDocumentData,
-} from 'react-firebase-hooks/firestore';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
 import { TrashIcon, WrenchIcon } from '@heroicons/react/20/solid';
 import { Order, orderConverter } from '../classes/Order';

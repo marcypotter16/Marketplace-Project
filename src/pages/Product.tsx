@@ -5,16 +5,19 @@ import { db } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
 
 export function ProductPage() {
-  const productId = useParams();
+  const params = useParams();
   const productRef = db
     .collection('products')
-    .withConverter(productConverter)
-    .doc(productId);
-  cosnt[(product, loading, error)] = useDocumentData<Product>(productRef);
+
+    .doc(params.id)
+    .withConverter(productConverter);
+  const [product, loading, error] = useDocumentData<Product>(productRef);
 
   return (
     <div>
-      <h1>{product && product.name}</h1>
+      {loading && <h1>Loading...</h1>}
+      {error && <h1>Error</h1>}
+      {product && <div>{product.name}</div>}
     </div>
   );
 }
