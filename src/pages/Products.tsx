@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db, fv, storage } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
-import { Navigate } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 
 export function Products({ user }) {
   const query = db.collection('products').withConverter(productConverter);
@@ -30,12 +30,18 @@ export function ProductCard({ product, user }) {
   const [showMessage, setShowMessage] = React.useState(false);
   const [imageURLs, setImageURLs] = React.useState([]);
   const today = new Date();
-  const imagesRef = storage.ref(
-    `${today.getFullYear()}/${product.publisherId}/${product.id}`
-  );
-  imagesRef.listAll().then((res) => {
-    setImageURLs((prev) => [...prev, res]);
-  });
+  React.useEffect(() => {
+    const imageRef = storage.ref(
+      `${today.getFullYear()}/${product.publisherId}/${product.id}`
+    );
+    imageRef.list({ maxResults: 4 }).then((images) => {
+      images.items.forEach((image) => {
+        image
+          .getDownloadURL()
+          .then((url) => setImageURLs((prev) => [...prev, url]));
+      });
+    });
+  }, []);
   function addToCart() {
     if (user) {
       db.collection('users')
@@ -61,21 +67,28 @@ export function ProductCard({ product, user }) {
     // Container
     <div className="bg-gray-500 p-2 rounded-lg m-2 flex justify-evenly">
       <div className="bg-gray-800 mr-4 border py-1 px-3 text-center rounded">
-        <h3 className="text-xl font-bold text-center bg-blue-400 rounded-lg shadow-inner px-3">
+        {imageURLs && (
+          <div className={`flex flex-row bg-transparent`}>
+            {imageURLs.map((url) => (
+              <img
+                src={url}
+                className="w-full overflow-hidden rounded m-1 mb-3 shadow-xl"
+              />
+            ))}
+          </div>
+        )}
+        <NavLink
+          to={`/products/${product.id}`}
+          className="text-xl text-white bg-transparent font-bold text-center px-3"
+        >
           {product.name}
-        </h3>
-        <p className="bg-gray-800 text-sm text-gray-400">
-          {product.description}
-        </p>
-        <h4 className="bg-gray-800 text-gray-400 text-sm">
-          Prezzo: {product.price} €
+        </NavLink>
+        <h4 className="bg-gray-800 text-gray-400 text-3xl">
+          {product.price} €
         </h4>
         <p className="bg-gray-800 text-gray-400 text-sm">
           Disponibili: {product.quantity}
         </p>
-        <h4 className="bg-gray-800 text-gray-400 text-sm">
-          {product.quantity > 0 ? 'disponibile' : 'non disponibile'}
-        </h4>
       </div>
       <div className="flex flex-col border p-1 rounded">
         <p className="text-center text-white font-bold">{selectedQuantity}</p>
