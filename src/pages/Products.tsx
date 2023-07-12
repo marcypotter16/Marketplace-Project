@@ -48,7 +48,7 @@ export function Products({ user }) {
           <MagnifyingGlassIcon className="w-4 h-4 bg-transparent" />
         </div>
       </div>
-      <div className="flex max-w-screen w-auto lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded border">
+      <div className="flex flex-wrap max-w-full w-auto lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded border">
         {products &&
           products.map((product) => {
             return (
@@ -107,23 +107,25 @@ export function ProductCard({ product, user }) {
   }
   return (
     // Container
-    <div className="relative bg-gray-500 p-2 rounded-lg m-2">
+    <div className="relative bg-transparent p-2 rounded-lg m-2">
       <div className="flex-1 bg-gray-800 h-11/12 border text-center rounded-t-xl">
         {imageURLs && (
           <div className={`flex flex-row bg-transparent`}>
             {imageURLs.map((url) => (
-              <img
-                src={url}
-                className="w-full border border-black overflow-hidden rounded-t-xl mb-1"
-                key={v4()}
-              />
+              <div key={url} className="flex-1">
+                <img
+                  src={url}
+                  className="w-full h-full border border-black object-contain mb-1 hover:object-fill"
+                  key={v4()}
+                />
+              </div>
             ))}
           </div>
         )}
         <div className="flex lg:flex-col bg-gray-800 justify-around items-center border">
           <NavLink
             to={`/products/${product.id}`}
-            className="text-xl text-white font-bold text-center px-3 border"
+            className="text-xl text-white font-bold text-center px-3"
           >
             {product.name}
           </NavLink>
@@ -139,7 +141,7 @@ export function ProductCard({ product, user }) {
       </div>
 
       {/** USER ICON */}
-      <div className="absolute flex-none w-12 h-12 rounded-full bg-teal-400 p-1 my-2">
+      <div className="absolute top-0 left-0 flex-none flex justify-center items-center w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-700 to-red-700 transform hover:scale-150 transition ease-in-out duration-200">
         {publisher && (
           <NavLink
             to={`/accounts/${product.publisherId}`}
@@ -148,7 +150,7 @@ export function ProductCard({ product, user }) {
             <img
               src={publisher.image}
               alt={publisher.displayName}
-              className="h-10 w-10 rounded-full border-4 border-gray-900 hover:border-gray-200"
+              className="h-10 w-10 rounded-full border-4 border-gray-900 transform transition duration-200 ease-in-out hover:rotate-12"
             />
           </NavLink>
         )}
