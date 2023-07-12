@@ -19,14 +19,17 @@ export function Cart() {
   function notifyOwnersOfCart() {
     // Update each product quantity
     value.cart.forEach((p: Product) => {
-      console.log(p.id);
       const productRef = db.collection('products').doc(p.id);
       productRef.get().then((snapshot) => {
         const data = snapshot.data();
         if (data.quantity > p.quantity) {
+          console.log('incremento', fv.increment(-p.quantity));
           productRef.update({
             quantity: fv.increment(-p.quantity),
           });
+        } else {
+          alert('Hai ordinato un numero troppo alto di: ' + p.name);
+          return;
         }
       });
     });
