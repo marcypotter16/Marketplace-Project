@@ -1,5 +1,8 @@
 import * as React from 'react';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import {
+  useCollectionData,
+  useDocumentData,
+} from 'react-firebase-hooks/firestore';
 import { db, fv, storage } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
 import { User, userConverter } from '../classes/User';
@@ -37,7 +40,7 @@ export function ProductCard({ product, user }) {
     .collection('users')
     .doc(product.publisherId)
     .withConverter(userConverter);
-  const [publisher, loading, error] = useCollectionData<User>(query);
+  const [publisher, loading, error] = useDocumentData<User>(query);
   const today = new Date();
   React.useEffect(() => {
     const imageRef = storage.ref(
@@ -101,7 +104,13 @@ export function ProductCard({ product, user }) {
             Disponibili: {product.quantity}
           </p>
           {publisher && (
-            <img src={publisher.image} alt={publisher.displayName} />
+            <NavLink to={`/accounts/${products.publisherId}`}>
+              <img
+                src={publisher.image}
+                alt={publisher.displayName}
+                className="my-1 h-12  rounded-full border-4 border-gray-900 hover:border-gray-200"
+              />
+            </NavLink>
           )}
         </div>
       </div>

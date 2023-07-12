@@ -3,6 +3,7 @@ import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { auth } from './firebase';
 import { Account } from './pages/Account';
+import { MyAccount } from './pages/MyAccount';
 import { Cart } from './pages/Cart';
 import { Home } from './pages/Home';
 import { ProductPage } from './pages/Product';
@@ -84,11 +85,13 @@ export default function App() {
           />
           <Route path="/products/:id" element={<ProductPage />} />
           <Route
-            path="/account/:id"
-            element={<Account user={info ? info.user : null} />}
+            path="/myaccount"
+            element={<MyAccount user={info ? info.user : null} />}
           />
+          {/** Da modificare perchè non voglio avere :id, voglio passare user come prop */}
           <Route path="/account/:id/cart" element={<Cart />} />
           <Route path="/account/:id/publish" element={<Publish />} />
+          <Route path="/accounts/:id" element={<Account />} />
         </Routes>
       </main>
     </>
