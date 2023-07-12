@@ -48,7 +48,7 @@ export function Products({ user }) {
           <MagnifyingGlassIcon className="w-4 h-4 bg-transparent" />
         </div>
       </div>
-      <div className="grid md:grid-cols-3 sm:grid-cols-1 mx-10 my-5 m-2 rounded border shadow">
+      <div className="grid lg:grid-cols-3 md:grid-cols-1 mx-10 my-5 m-2 rounded border">
         {products &&
           products.map((product) => {
             return (
