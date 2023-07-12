@@ -22,12 +22,14 @@ export function Products({ user }) {
   const [productsData] = useCollectionData<Product>(query);
   const [products, setProducts] = React.useState(productsData);
   React.useEffect(() => {
-    if (productsData && searchQuery) {
+    if (productsData) {
       setProducts(
-        productsData.filter((product) => product.name.match(searchQuery))
+        productsData.filter((product) =>
+          product.name.toLowerCase().match(searchQuery.toLowerCase())
+        )
       );
     }
-  }, [searchQuery]);
+  }, [searchQuery, productsData]);
   return (
     <div className="flex flex-col items-center py-10 mx-2">
       <h1 className="text-gray-100 text-3xl font-semibold text-center py-2">
