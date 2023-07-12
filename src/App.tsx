@@ -42,7 +42,7 @@ export default function App() {
                 Sign Out
               </button>
               <Link
-                to={`/account/${info.user.uid}`}
+                to="/myaccount/"
                 className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
               >
                 Account

@@ -48,7 +48,7 @@ export function Products({ user }) {
           <MagnifyingGlassIcon className="w-4 h-4 bg-transparent" />
         </div>
       </div>
-      <div className="grid lg:grid-cols-3 md:grid-cols-1 mx-10 my-5 m-2 rounded border">
+      <div className="flex max-w-screen w-auto lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded border">
         {products &&
           products.map((product) => {
             return (
@@ -107,46 +107,55 @@ export function ProductCard({ product, user }) {
   }
   return (
     // Container
-    <div className="bg-gray-500 p-2 rounded-lg m-2 flex flex-col justify-evenly">
-      <div className="bg-gray-800 h-11/12 border text-center rounded-t-xl">
+    <div className="relative bg-gray-500 p-2 rounded-lg m-2">
+      <div className="flex-1 bg-gray-800 h-11/12 border text-center rounded-t-xl">
         {imageURLs && (
           <div className={`flex flex-row bg-transparent`}>
             {imageURLs.map((url) => (
               <img
                 src={url}
-                className="w-full border border-black overflow-hidden rounded-t-xl mb-1 shadow-xl"
+                className="w-full border border-black overflow-hidden rounded-t-xl mb-1"
                 key={v4()}
               />
             ))}
           </div>
         )}
-        <div className="flex bg-gray-800 justify-around items-center">
+        <div className="flex lg:flex-col bg-gray-800 justify-around items-center border">
           <NavLink
             to={`/products/${product.id}`}
-            className="text-xl text-white font-bold text-center px-3"
+            className="text-xl text-white font-bold text-center px-3 border"
           >
             {product.name}
           </NavLink>
-          <h4 className="bg-gray-800 text-gray-400 text-3xl">
-            {product.price} €
-          </h4>
-          <p className="bg-gray-800 text-gray-400 text-sm">
-            Disponibili: {product.quantity}
-          </p>
-          {publisher && (
-            <NavLink to={`/accounts/${product.publisherId}`}>
-              <img
-                src={publisher.image}
-                alt={publisher.displayName}
-                className="my-1 h-12  rounded-full border-4 border-gray-900 hover:border-gray-200"
-              />
-            </NavLink>
-          )}
+          <div className="flex items-center bg-transparent gap-x-4">
+            <h4 className="bg-gray-800 text-gray-400 md:text-3xl">
+              {product.price} €
+            </h4>
+            <p className="bg-gray-800 text-gray-400 text-sm">
+              Disponibili: {product.quantity}
+            </p>
+          </div>
         </div>
       </div>
 
+      {/** USER ICON */}
+      <div className="absolute flex-none w-12 h-12 rounded-full bg-teal-400 p-1 my-2">
+        {publisher && (
+          <NavLink
+            to={`/accounts/${product.publisherId}`}
+            className="flex-none"
+          >
+            <img
+              src={publisher.image}
+              alt={publisher.displayName}
+              className="h-10 w-10 rounded-full border-4 border-gray-900 hover:border-gray-200"
+            />
+          </NavLink>
+        )}
+      </div>
+
       {/* --- SIDE PANEL --- */}
-      <div className="flex h-1/12 justify-around items-center border py-1 rounded-b-xl">
+      <div className="flex-none flex h-1/12 justify-around items-center border py-1 rounded-b-xl">
         <input
           type="number"
           className="border rounded text-center text-white font-bold focus:border-teal-400"
