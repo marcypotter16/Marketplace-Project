@@ -7,17 +7,45 @@ import { db, fv, storage } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
 import { User, userConverter } from '../classes/User';
 import { Navigate, NavLink } from 'react-router-dom';
-import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import {
+  ShoppingCartIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/react/24/outline';
 import { v4 } from 'uuid';
 
 export function Products({ user }) {
-  const query = db.collection('products').withConverter(productConverter);
-  const [products] = useCollectionData<Product>(query);
+  const [searchQuery, setSearchQuery] = React.useState('');
+  const query = db
+    .collection('products')
+    .limit(9)
+    .withConverter(productConverter);
+  const [productsData] = useCollectionData<Product>(query);
+  const [products, setProducts] = React.useState(productsData);
+  React.useEffect(() => {
+    if (productsData && searchQuery) {
+      setProducts(
+        productsData.filter((product) => product.name.match(searchQuery))
+      );
+    }
+  }, [searchQuery]);
   return (
-    <div>
-      <h1 className="text-gray-100 text-xl font-bold text-center py-2">
-        Products Page
+    <div className="flex flex-col items-center py-10 mx-2">
+      <h1 className="text-gray-100 text-3xl font-semibold text-center py-2">
+        La Piazza
       </h1>
+      <div className="flex">
+        <input
+          type="text"
+          className="border rounded-l w-5/6 p-1 px-2 text-white"
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            console.log(searchQuery);
+          }}
+        />
+        <div className="bg-gray-500 flex items-center justify-center rounded-r px-3">
+          <MagnifyingGlassIcon className="w-4 h-4 bg-transparent" />
+        </div>
+      </div>
       <div className="grid md:grid-cols-3 sm:grid-cols-1 mx-10 my-5 m-2 rounded border shadow">
         {products &&
           products.map((product) => {
@@ -104,7 +132,7 @@ export function ProductCard({ product, user }) {
             Disponibili: {product.quantity}
           </p>
           {publisher && (
-            <NavLink to={`/accounts/${products.publisherId}`}>
+            <NavLink to={`/accounts/${product.publisherId}`}>
               <img
                 src={publisher.image}
                 alt={publisher.displayName}
