@@ -1,11 +1,7 @@
 import React = require('react');
-import {
-  useDocumentData,
-  useDocumentDataOnce,
-} from 'react-firebase-hooks/firestore';
+import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
 import { db } from '../firebase';
-import { Home } from './Home';
 
 function AccountVero({ user }) {
   // if (user) {
@@ -33,7 +29,7 @@ function AccountVero({ user }) {
   //}
 }
 
-// ONLY FOR DEVELOPMENT PURPOSES, THE REAL FUNCTION IS THE ONE ABOVE, TO ACTIVATE IT REMOVE THE EXPORT KEYWORD FROM THIS FUNCTION, EXPORT THE OTHER FUNCTION AND RENAME IT TO Account (and delete this function or rename it to something else).
+// ONLY FOR DEVELOPMENT PURPOSES, THE REAL FUNCTION IS THE ONE ABOVE, TO ACTIVATE IT REMOVE THE EXPORT KEYWORD FROM THIS FUNCTION, EXPORT THE OTHER FUNCTION AND RENAME IT TO MyAccount (and delete this function or rename it to something else).
 export function MyAccount({ user }) {
   // if (user) {
   const query = db

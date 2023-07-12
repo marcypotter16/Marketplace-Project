@@ -48,7 +48,7 @@ export function Products({ user }) {
           <MagnifyingGlassIcon className="w-4 h-4 bg-transparent" />
         </div>
       </div>
-      <div className="flex flex-wrap max-w-full w-auto lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded border">
+      <div className="flex flex-wrap min-w-fit lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded border">
         {products &&
           products.map((product) => {
             return (
@@ -107,38 +107,38 @@ export function ProductCard({ product, user }) {
   }
   return (
     // Container
-    <div className="relative bg-transparent p-2 rounded-lg m-2">
-      <div className="flex-1 bg-gray-800 h-11/12 border text-center rounded-t-xl">
-        {imageURLs && (
-          <div className={`flex flex-row bg-transparent`}>
-            {imageURLs.map((url) => (
-              <div key={url} className="flex-1">
-                <img
-                  src={url}
-                  className="w-full h-full border border-black object-contain mb-1 hover:object-fill"
-                  key={v4()}
-                />
-              </div>
-            ))}
-          </div>
-        )}
-        <div className="flex lg:flex-col bg-gray-800 justify-around items-center border">
-          <NavLink
-            to={`/products/${product.id}`}
-            className="text-xl text-white font-bold text-center px-3"
-          >
-            {product.name}
-          </NavLink>
-          <div className="flex items-center bg-transparent gap-x-4">
-            <h4 className="bg-gray-800 text-gray-400 md:text-3xl">
-              {product.price} €
-            </h4>
-            <p className="bg-gray-800 text-gray-400 text-sm">
-              Disponibili: {product.quantity}
+
+    <div className="relative max-w-sm bg-transparent p-2 rounded-lg m-2">
+      <NavLink to={`/products/${product.id}`}>
+        <div className="flex-1 bg-gray-800 h-11/12 border text-center">
+          {imageURLs && (
+            <div className={`flex flex-row bg-transparent`}>
+              {imageURLs.map((url) => (
+                <div key={url} className="flex-1">
+                  <img
+                    src={url}
+                    className="w-full h-full border border-black object-contain mb-1 hover:object-fill"
+                    key={v4()}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+          <div className="flex lg:flex-col bg-gray-800 justify-around items-center border">
+            <p className="text-white font-semibold text-xl bg-transparent px-2">
+              {product.name}
             </p>
+            <div className="flex items-center bg-transparent gap-x-4">
+              <h4 className="bg-gray-800 text-gray-400 md:text-3xl">
+                {product.price} €
+              </h4>
+              <p className="bg-gray-800 text-gray-400 text-sm pr-2">
+                Disponibili: {product.quantity}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      </NavLink>
 
       {/** USER ICON */}
       <div className="absolute top-0 left-0 flex-none flex justify-center items-center w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-700 to-red-700 transform hover:scale-150 transition ease-in-out duration-200">

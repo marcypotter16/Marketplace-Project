@@ -8,7 +8,6 @@ export function ProductPage() {
   const params = useParams();
   const productRef = db
     .collection('products')
-
     .doc(params.id)
     .withConverter(productConverter);
   const [product, loading, error] = useDocumentData<Product>(productRef);
