@@ -13,6 +13,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { v4 } from 'uuid';
 
+export var productsGlobal: React.Context<Product[]>;
+
 export function Products({ user }) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const query = db
@@ -21,6 +23,7 @@ export function Products({ user }) {
     .withConverter(productConverter);
   const [productsData] = useCollectionData<Product>(query);
   const [products, setProducts] = React.useState(productsData);
+  productsGlobal = React.createContext(products);
   React.useEffect(() => {
     if (productsData) {
       setProducts(

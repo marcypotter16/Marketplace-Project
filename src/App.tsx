@@ -25,7 +25,7 @@ export default function App() {
             to="/products"
             className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
           >
-            Products
+            Piazza
           </NavLink>
           <NavLink
             to="/"
@@ -52,14 +52,14 @@ export default function App() {
                 to={`/account/${info.user.uid}/cart`}
                 className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
               >
-                Cart
+                Carrello
               </Link>
 
               <Link
                 to={`/account/${info.user.uid}/publish`}
                 className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
               >
-                Publish
+                Pubblica
               </Link>
             </>
           )}
