@@ -1,4 +1,3 @@
-import React = require('react');
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase';

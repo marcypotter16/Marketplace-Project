@@ -1,4 +1,3 @@
-import React = require('react');
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
 import { db } from '../firebase';

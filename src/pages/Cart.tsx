@@ -1,4 +1,4 @@
-import React = require('react');
+import { useState } from 'react';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
 import { TrashIcon, WrenchIcon } from '@heroicons/react/20/solid';
@@ -108,7 +108,7 @@ export function Cart() {
 }
 
 function SimpleProductCard({ simpleProduct, userId }) {
-  const [imageURLs, setImageURLs] = React.useState([]);
+  const [imageURLs, setImageURLs] = useState([]);
   function remove() {
     db.collection('users')
       .doc(userId)

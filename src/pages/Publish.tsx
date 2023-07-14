@@ -1,21 +1,21 @@
-import React = require('react');
+import { useState, useRef, ChangeEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { Product, productConverter } from '../classes/Product';
-import { db, storage, te } from '../firebase';
+import { db, storage } from '../firebase';
 import { v4 } from 'uuid';
 
 export const Publish = () => {
   const params = useParams();
-  const [input, setInput] = React.useState(new Product());
-  const [quantityType, setQuantityType] = React.useState('pz');
-  const photoRef = React.useRef(null);
+  const [input, setInput] = useState(new Product());
+  const [quantityType, setQuantityType] = useState('pz');
+  const photoRef = useRef(null);
 
-  function submit(e) {
-    let today = new Date();
+    function submit(e: SubmitEvent) {
+    const today = new Date();
     var productId = v4();
     console.log(productId, 'productId');
     e.preventDefault();
-    input.publisherId = params.id;
+    input.publisherId = params.id!;
     console.warn(photoRef.current.files);
     // manageImageUpload(photoRef.current.files);
     console.warn('input:', input);
@@ -30,10 +30,10 @@ export const Publish = () => {
       .withConverter(productConverter)
       .doc(productId)
       .set(input)
-      .then((res) => alert('Added: ' + input.name));
+      .then((_res) => alert('Added: ' + input.name));
   }
 
-  function handleChange(e) {
+    function handleChange(e: ChangeEvent) {
     const { name, value } = e.target;
     if (name == 'category') {
       setInput((prevInput) => ({
@@ -48,7 +48,6 @@ export const Publish = () => {
     }
   }
   return (
-    <>
       <div className="">
         <form
           className="px-4 my-32 max-w-3xl mx-auto space-y-6"
@@ -169,7 +168,6 @@ export const Publish = () => {
           </div>
         </form>
       </div>
-    </>
   );
 };
 

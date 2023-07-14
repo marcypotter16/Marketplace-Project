@@ -1,7 +1,6 @@
-import React = require('react');
+import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  useCollectionData,
   useDocumentData,
 } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
@@ -26,7 +25,7 @@ export function Account() {
   // I AM THE GENIUS
   var products;
   if (productsGlobal) {
-    products = React.useContext(productsGlobal);
+    products = useContext(productsGlobal);
   } else {
     // TODO
   }
