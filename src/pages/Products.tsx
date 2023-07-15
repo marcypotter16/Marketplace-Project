@@ -1,30 +1,33 @@
-import * as React from 'react';
 import {
   useCollectionData,
   useDocumentData,
 } from 'react-firebase-hooks/firestore';
-import { db, fv, storage } from '../firebase';
+import { db, storage } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
 import { User, userConverter } from '../classes/User';
-import { Navigate, NavLink } from 'react-router-dom';
+import { NavLink, Navigate } from 'react-router-dom';
 import {
   ShoppingCartIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline';
 import { v4 } from 'uuid';
+import { createContext, useEffect, useState } from 'react';
+import { arrayUnion, collection, doc, limit, query, updateDoc } from 'firebase/firestore';
+import { getDownloadURL, list, ref } from 'firebase/storage';
 
 export var productsGlobal: React.Context<Product[]>;
 
 export function Products({ user }) {
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const query = db
+  const [searchQuery, setSearchQuery] = useState('');
+  /* const query = db
     .collection('products')
     .limit(9)
-    .withConverter(productConverter);
-  const [productsData] = useCollectionData<Product>(query);
-  const [products, setProducts] = React.useState(productsData);
-  productsGlobal = React.createContext(products);
-  React.useEffect(() => {
+    .withConverter(productConverter); */
+  const q = query(collection(db, 'products'), limit(9)).withConverter(productConverter);
+  const [productsData] = useCollectionData<Product>(q);
+  const [products, setProducts] = useState(productsData);
+  productsGlobal = createContext(products);
+  useEffect(() => {
     if (productsData) {
       setProducts(
         productsData.filter((product) =>
@@ -68,35 +71,45 @@ export function Products({ user }) {
 }
 
 export function ProductCard({ product, user }) {
-  const [selectedQuantity, setSelectedQuantity] = React.useState(0);
-  const [navigateToSignIn, setNavigateToSignIn] = React.useState(false);
-  const [showMessage, setShowMessage] = React.useState(false);
-  const [imageURLs, setImageURLs] = React.useState([]);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+  const [navigateToSignIn, setNavigateToSignIn] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [imageURLs, setImageURLs] = useState([]);
 
-  const query = db
+  /* const query = db
     .collection('users')
     .doc(product.publisherId)
-    .withConverter(userConverter);
-  const [publisher, loading, error] = useDocumentData<User>(query);
+    .withConverter(userConverter); */
+  const publisherRef = doc(db, 'users', product.publisherId).withConverter(userConverter);
+  const [publisher, loading, error] = useDocumentData<User>(publisherRef);
+  console.warn(loading, error)
   const today = new Date();
-  React.useEffect(() => {
-    const imageRef = storage.ref(
+  useEffect(() => {
+    const imageRef = ref(storage,
       `${today.getFullYear()}/${product.publisherId}/${product.id}`
     );
-    imageRef.list({ maxResults: 1 }).then((images) => {
+    list(imageRef, { maxResults: 1 }).then((images) => {
       images.items.forEach((image) => {
-        image
-          .getDownloadURL()
+          getDownloadURL(image)
           .then((url) => setImageURLs((prev) => [...prev, url]));
       });
     });
   }, []);
   function addToCart() {
     if (user) {
-      db.collection('users')
+      /* db.collection('users')
         .doc(user.uid)
         .update({
-          cart: fv.arrayUnion({
+          cart: arrayUnion({
+            id: product.id,
+            name: product.name,
+            quantity: selectedQuantity,
+            publisherId: product.publisherId,
+            price: product.price,
+          }),
+        }) */
+        updateDoc(doc(db, 'users', user.uid), {
+          cart: arrayUnion({
             id: product.id,
             name: product.name,
             quantity: selectedQuantity,
@@ -104,8 +117,9 @@ export function ProductCard({ product, user }) {
             price: product.price,
           }),
         })
-        .then((res) => {
+        .then((_res) => {
           setShowMessage(true);
+          console.log(showMessage);
         });
     } else {
       alert('Devi prima effettuare il login.');
@@ -190,6 +204,7 @@ export function ProductCard({ product, user }) {
       )}
       {navigateToSignIn && <Navigate to="/" />}
       </div> */}
+      {navigateToSignIn && <Navigate to="/" />}
     </div>
   );
 }

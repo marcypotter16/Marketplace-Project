@@ -12,7 +12,7 @@ import { SignIn } from './pages/SignIn';
 import './style.css';
 
 export default function App() {
-  const [SignInWithGoogle, info, loading, error] = useSignInWithGoogle(auth);
+  const [SignInWithGoogle, info] = useSignInWithGoogle(auth);
   const signOut = () => {
     auth.signOut();
   };
@@ -85,7 +85,7 @@ export default function App() {
           <Route path="/products/:id" element={<ProductPage />} />
           <Route
             path="/myaccount"
-            element={<MyAccount user={info ? info.user : null} />}
+            element={<MyAccount />}
           />
           {/** Da modificare perchè non voglio avere :id, voglio passare user come prop oppure useContext!! */}
           <Route path="/account/:id/cart" element={<Cart />} />

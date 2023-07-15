@@ -2,13 +2,15 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
 import { db } from '../firebase';
 import { Product, productConverter } from '../classes/Product';
+import { doc } from 'firebase/firestore';
 
 export function ProductPage() {
   const params = useParams();
-  const productRef = db
+  /* const productRef = db
     .collection('products')
     .doc(params.id)
-    .withConverter(productConverter);
+    .withConverter(productConverter); */
+  const productRef = doc(db, 'products', params.id).withConverter(productConverter);  
   const [product, loading, error] = useDocumentData<Product>(productRef);
 
   return (

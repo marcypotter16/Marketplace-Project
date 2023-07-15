@@ -2,8 +2,11 @@ import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
 import { db } from '../firebase';
 import { loggedUser } from './SignIn';
+import { doc } from 'firebase/firestore';
 
-function AccountVero() {
+console.log(loggedUser);
+
+/* function AccountVero() {
   // if (user) {
   const query = db
     .collection('users')
@@ -27,22 +30,23 @@ function AccountVero() {
   // } else {
   //   return <Home />;
   //}
-}
+} */
 
 // ONLY FOR DEVELOPMENT PURPOSES, THE REAL FUNCTION IS THE ONE ABOVE, TO ACTIVATE IT REMOVE THE EXPORT KEYWORD FROM THIS FUNCTION, EXPORT THE OTHER FUNCTION AND RENAME IT TO MyAccount (and delete this function or rename it to something else).
 export function MyAccount() {
   // if (user) {
-  const query = db
+  /* const query = db
     .collection('users')
     .withConverter(userConverter)
-    .doc('awFfIe1GvzZiGQpBZtXNu45Sa7u2');
+    .doc('awFfIe1GvzZiGQpBZtXNu45Sa7u2'); */
+  const query = doc(db, 'users', 'awFfIe1GvzZiGQpBZtXNu45Sa7u2').withConverter(userConverter);
   const [userDoc, loading, error] = useDocumentData<User>(query);
   return (
     <div className="m-2 rounded border">
       <h1 className="text-white">Ciao</h1>
 
       <h4>Notifiche</h4>
-      {error && error}
+      {error && error.message}
       {loading && <p>Loading...</p>}
       {userDoc &&
         userDoc.notifications.map((n) => (
@@ -56,10 +60,11 @@ export function MyAccount() {
 }
 
 function OrderCard({ notification }) {
-  const requesterQuery = db
+  /* const requesterQuery = db
     .collection('users')
     .withConverter(userConverter)
-    .doc(notification.buyerId);
+    .doc(notification.buyerId); */
+  const requesterQuery = doc(db, 'users', notification.buyerId).withConverter(userConverter);
   const [buyer, loading, error] = useDocumentData<User>(requesterQuery);
 
   return (

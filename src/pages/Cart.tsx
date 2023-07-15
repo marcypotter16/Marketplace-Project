@@ -1,31 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { useParams } from 'react-router-dom';
 import { TrashIcon, WrenchIcon } from '@heroicons/react/20/solid';
-import { Order, orderConverter } from '../classes/Order';
+import { Order } from '../classes/Order';
 import { Product } from '../classes/Product';
 import { User, userConverter } from '../classes/User';
-import { db, fv, storage } from '../firebase';
+import { db, storage } from '../firebase';
 import { BellAlertIcon } from '@heroicons/react/24/outline';
+import { doc, getDoc, updateDoc, addDoc, increment, collection, setDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { getDownloadURL, list, ref } from 'firebase/storage';
 
 export function Cart() {
   const params = useParams();
-  const query = db
-    .collection('users')
-    .doc(params.id)
-    .withConverter(userConverter);
+  const query = doc(db, 'users', params.id).withConverter(userConverter);
   const [value, loading, error] = useDocumentData<User>(query);
 
   function notifyOwnersOfCart() {
     // Update each product quantity
     value.cart.forEach((p: Product) => {
-      const productRef = db.collection('products').doc(p.id);
-      productRef.get().then((snapshot) => {
+      // const productRef = db.collection('products').doc(p.id);
+      const productRef = doc(db, 'products', p.id);
+      getDoc(productRef).then((snapshot) => {
         const data = snapshot.data();
         if (data.quantity > p.quantity) {
-          console.log('incremento', fv.increment(-p.quantity));
-          productRef.update({
-            quantity: fv.increment(-p.quantity),
+          console.log('incremento', increment(-p.quantity));
+          updateDoc(productRef, {
+            quantity: increment(-p.quantity),
           });
         } else {
           alert('Hai ordinato un numero troppo alto di: ' + p.name);
@@ -35,7 +35,25 @@ export function Cart() {
     });
 
     // Add order to the orders collection
-    db.collection('orders')
+    addDoc(collection(db, 'orders'), new Order('', params.id, value.cart)).then((_snapshot) => {
+      value.cart.forEach((product: Product) => {
+        const publisherRef = doc(db, 'users', product.publisherId);
+        setDoc(publisherRef, 
+        {
+          notifications: arrayUnion(
+            {
+          productId: product.id,
+          productName: product.name,
+          quantity: product.quantity,
+          unitPrice: product.price,
+          buyerId: params.id,
+          message: 'richiesta di ciboh',
+        }),
+      },
+      { merge: true })
+    });
+  });
+    /* db.collection('orders')
       .withConverter<Order>(orderConverter)
       .add(new Order('', params.id, value.cart))
       .then((snapshot) => {
@@ -62,11 +80,11 @@ export function Cart() {
               { merge: true }
             );
         });
-      });
+      }); */
 
     // Empty cart
-    const userRef = db.collection('users').doc(params.id);
-    userRef.update({
+    const userRef = doc(db, 'users', params.id);
+    updateDoc(userRef, {
       cart: [],
     });
 
@@ -76,7 +94,7 @@ export function Cart() {
     <div className="px-4 py-10 max-w-3xl mx-auto">
       <h1 className="text-3xl text-white font-semibold">Carrello</h1>
       {loading && <h4>Loading...</h4>}
-      {error && <h4 style="color: red">Error!</h4>}
+      {error && <h4>Error!</h4>}
       {value && (
         <div
           className={`max-w-3xl mx-auto grid grid-cols-${Math.floor(
@@ -110,20 +128,23 @@ export function Cart() {
 function SimpleProductCard({ simpleProduct, userId }) {
   const [imageURLs, setImageURLs] = useState([]);
   function remove() {
-    db.collection('users')
+    /* db.collection('users')
       .doc(userId)
       .update({
         cart: fv.arrayRemove(simpleProduct),
+      }); */
+    updateDoc(doc(db, 'users', userId), {
+      cart: arrayRemove(simpleProduct),
       });
-  }
+    }
   const today = new Date();
-  React.useEffect(() => {
-    const imageRef = storage.ref(
+  useEffect(() => {
+    const imageRef = ref(storage,
       `${today.getFullYear()}/${simpleProduct.publisherId}/${simpleProduct.id}`
     );
-    imageRef.list({ maxResults: 1 }).then((images) => {
-      images.items[0]
-        .getDownloadURL()
+    list(imageRef, { maxResults: 1 }).then((images) => {
+      // images.items[0]
+        getDownloadURL(images.items[0])
         .then((url) => setImageURLs((prev) => [...prev, url]));
     });
   }, []);

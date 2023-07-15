@@ -1,4 +1,4 @@
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import { Product, productConverter } from '../classes/Product';
 import { db, storage } from '../firebase';
@@ -10,7 +10,7 @@ export const Publish = () => {
   const [quantityType, setQuantityType] = useState('pz');
   const photoRef = useRef(null);
 
-    function submit(e: SubmitEvent) {
+    function submit(e: FormEvent<HTMLFormElement>) {
     const today = new Date();
     var productId = v4();
     console.log(productId, 'productId');
@@ -21,19 +21,20 @@ export const Publish = () => {
     console.warn('input:', input);
     for (const file of photoRef.current.files) {
       const imageId = file.name + v4();
-      const imageRef = storage.ref(
+      const imageRef = ref(storage, 
         `${today.getFullYear()}/${params.id}/${productId}/${imageId}`
       );
-      imageRef.put(file);
+      uploadBytes(imageRef, file);
     }
-    db.collection('products')
+    /* db.collection('products')
       .withConverter(productConverter)
       .doc(productId)
       .set(input)
-      .then((_res) => alert('Added: ' + input.name));
+      .then((_res) => alert('Added: ' + input.name)); */
+    setDoc(doc(db, 'products', productId).withConverter(productConverter), input).then((_res) => alert('Added: ' + input.name));
   }
 
-    function handleChange(e: ChangeEvent) {
+    function handleChange(e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>) {
     const { name, value } = e.target;
     if (name == 'category') {
       setInput((prevInput) => ({
@@ -174,6 +175,8 @@ export const Publish = () => {
 import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/20/solid';
+import { ref, uploadBytes } from 'firebase/storage';
+import { doc, setDoc } from 'firebase/firestore';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');

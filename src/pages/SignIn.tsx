@@ -1,3 +1,4 @@
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { User, userConverter } from '../classes/User';
 import { db } from '../firebase';
 import '../style.css';
@@ -9,7 +10,8 @@ export function SignIn({ signInWithGoogle }) {
   function signIn() {
     signInWithGoogle().then((value) => {
       const user = value.user;
-      const userRef = db.collection('users').doc(user.uid).withConverter(userConverter);
+      // const userRef = db.collection('users').doc(user.uid).withConverter(userConverter);
+      const userRef = doc(db, 'users', user.uid).withConverter(userConverter);
       const userObject = {
         displayName: user.displayName,
         email: user.email,
@@ -18,9 +20,9 @@ export function SignIn({ signInWithGoogle }) {
         notifications: [],
       };
       
-      userRef.get().then((snapshot) => {
+      getDoc(userRef).then((snapshot) => {
         if (!snapshot.exists) {
-          userRef.set(
+          setDoc(userRef, 
             userObject,
             { merge: true }
           );

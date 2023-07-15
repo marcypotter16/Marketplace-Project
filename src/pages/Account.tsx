@@ -4,17 +4,14 @@ import {
   useDocumentData,
 } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
+import { doc } from 'firebase/firestore';
 import { db } from '../firebase';
-import { Product, productConverter } from '../classes/Product';
 import { ProductCard, productsGlobal } from './Products';
 
 export function Account() {
   const params = useParams();
-  const getUser = db
-    .collection('users')
-    .doc(params.id)
-    .withConverter(userConverter);
-  const [user, loading, error] = useDocumentData<User>(getUser);
+  const getUser = doc(db, 'users', params.id).withConverter(userConverter);
+  const [user, loading] = useDocumentData<User>(getUser);
   /* const getUserProducts = db
     .collection('products')
     .where('publisherId', '==', params.id)

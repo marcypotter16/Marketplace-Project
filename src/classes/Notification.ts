@@ -18,7 +18,7 @@ export class Request {
 }
 
 export const requestConverter = {
-  toFirestore: (n: Reuqest) => {
+  toFirestore: (n: Request) => {
     return {
       productId: n.productId,
       productName: n.productName,
