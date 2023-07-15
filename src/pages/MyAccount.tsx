@@ -1,18 +1,19 @@
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
 import { db } from '../firebase';
+import { loggedUser } from './SignIn';
 
-function AccountVero({ user }) {
+function AccountVero() {
   // if (user) {
   const query = db
     .collection('users')
     .withConverter(userConverter)
-    .doc(user.uid);
+    .doc(loggedUser.uid);
   const [userDoc, loading, error] = useDocumentData<User>(query);
   return (
     <div className="m-2 rounded border">
-      <h1 className="text-white">Ciao, {user.displayName}</h1>
-      {userDoc && user.displayName}
+      <h1 className="text-white">Ciao, {loggedUser.displayName}</h1>
+      {userDoc && loggedUser.displayName}
 
       <h4>Notifiche</h4>
       {error && error}
@@ -29,7 +30,7 @@ function AccountVero({ user }) {
 }
 
 // ONLY FOR DEVELOPMENT PURPOSES, THE REAL FUNCTION IS THE ONE ABOVE, TO ACTIVATE IT REMOVE THE EXPORT KEYWORD FROM THIS FUNCTION, EXPORT THE OTHER FUNCTION AND RENAME IT TO MyAccount (and delete this function or rename it to something else).
-export function MyAccount({ user }) {
+export function MyAccount() {
   // if (user) {
   const query = db
     .collection('users')

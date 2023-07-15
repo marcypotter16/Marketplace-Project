@@ -3,16 +3,12 @@
 @tailwind utilities;
 
 * {
-  background-color: #1e2836;
+  background-color: #101722;
   font-family: 'Comfortaa', cursive;
 }
 
 @layer components {
   .navBtn {
-    @apply px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md;
+    @apply px-2 py-1 font-semibold text-slate-300 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md;
   }
-}
-
-.navBtn {
-  @apply px-2 hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md;
 }

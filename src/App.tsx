@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { auth } from './firebase';
@@ -19,17 +18,17 @@ export default function App() {
   };
   return (
     <>
-      <div className="flex flex-row w-screen">
+      <div id="top-bar" className="flex flex-row w-screen">
         <div className="border flex-1 flex-row p-2 bg-blue-900 text-gray-400 inline-block">
           <NavLink
             to="/products"
-            className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            className="navBtn"
           >
             Piazza
           </NavLink>
           <NavLink
             to="/"
-            className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+            className="navBtn"
           >
             Home
           </NavLink>
@@ -37,27 +36,27 @@ export default function App() {
             <>
               <button
                 onClick={signOut}
-                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="navBtn"
               >
                 Sign Out
               </button>
               <Link
                 to="/myaccount/"
-                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="navBtn"
               >
                 Account
               </Link>
 
               <Link
                 to={`/account/${info.user.uid}/cart`}
-                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="navBtn"
               >
                 Carrello
               </Link>
 
               <Link
                 to={`/account/${info.user.uid}/publish`}
-                className="px-2 py-1 font-semibold hover:text-white hover:bg-blue-700 hover:shadow-xl rounded-md"
+                className="navBtn"
               >
                 Pubblica
               </Link>
@@ -88,7 +87,7 @@ export default function App() {
             path="/myaccount"
             element={<MyAccount user={info ? info.user : null} />}
           />
-          {/** Da modificare perchè non voglio avere :id, voglio passare user come prop */}
+          {/** Da modificare perchè non voglio avere :id, voglio passare user come prop oppure useContext!! */}
           <Route path="/account/:id/cart" element={<Cart />} />
           <Route path="/account/:id/publish" element={<Publish />} />
           <Route path="/accounts/:id" element={<Account />} />

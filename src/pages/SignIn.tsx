@@ -1,27 +1,32 @@
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
 import { db } from '../firebase';
 import '../style.css';
+import { Context, createContext } from 'react';
+
+export var loggedUser: Context<User | undefined> | Context<User>;
 
 export function SignIn({ signInWithGoogle }) {
-  const query = db.collection('users').withConverter(userConverter);
-  const [data] = useCollectionData<User>(query);
-
   function signIn() {
     signInWithGoogle().then((value) => {
       const user = value.user;
-      const userRef = db.collection('users').doc(user.uid);
+      const userRef = db.collection('users').doc(user.uid).withConverter(userConverter);
+      const userObject = {
+        displayName: user.displayName,
+        email: user.email,
+        image: user.photoURL,
+        cart: [],
+        notifications: [],
+      };
+      
       userRef.get().then((snapshot) => {
         if (!snapshot.exists) {
           userRef.set(
-            {
-              displayName: user.displayName,
-              email: user.email,
-              image: user.photoURL,
-              notifications: [],
-            },
+            userObject,
             { merge: true }
           );
+          loggedUser = createContext(new User(user.displayName, user.email, [], user.uid, [], user.photoURL))
+        } else {
+          loggedUser = createContext(snapshot.data())
         }
       });
     });

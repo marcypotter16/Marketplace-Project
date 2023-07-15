@@ -51,13 +51,17 @@ export function Products({ user }) {
           <MagnifyingGlassIcon className="w-4 h-4 bg-transparent" />
         </div>
       </div>
-      <div className="flex flex-wrap min-w-fit lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded border">
-        {products &&
-          products.map((product) => {
-            return (
-              <ProductCard product={product} user={user} key={product.id} />
-            );
-          })}
+      <div className="relative px-10 py-2 space-y-8 flex flex-wrap justify-around min-w-fit bg-slate-800 lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded-3xl">
+        {/*<div id="cerchio-1" className='absolute border w-96 h-96 top-40 left-2 rounded-full bg-purple-600 mix-blend-multiply'>
+          </div>
+        <div id="cerchio-2" className='absolute w-64 h-64 top-0 left-0 rounded-full blur-xl bg-orange-500 mix-blend-multiply'></div>
+        <div id="cerchio-3" className='absolute w-80 h-80 top-2 right-0 blur-xl rounded-full bg-yellow-400 mix-blend-multiply'></div> */}
+          {products &&
+            products.map((product) => {
+              return (
+                <ProductCard product={product} user={user} key={product.id} />
+              );
+            })}
       </div>
     </div>
   );
@@ -79,7 +83,7 @@ export function ProductCard({ product, user }) {
     const imageRef = storage.ref(
       `${today.getFullYear()}/${product.publisherId}/${product.id}`
     );
-    imageRef.list({ maxResults: 4 }).then((images) => {
+    imageRef.list({ maxResults: 1 }).then((images) => {
       images.items.forEach((image) => {
         image
           .getDownloadURL()
@@ -111,31 +115,29 @@ export function ProductCard({ product, user }) {
   return (
     // Container
 
-    <div className="relative max-w-sm bg-transparent p-2 rounded-lg m-2">
-      <NavLink to={`/products/${product.id}`}>
-        <div className="flex-1 bg-gray-800 h-11/12 border text-center">
+    <div className="flex flex-col border-white relative w-64 h-56 bg-transparent rounded-3xl m-2 shadow-2xl shadow-zinc-950">
+      <NavLink to={`/products/${product.id}`} className={"flex-1"}>
+        <div className="rounded-3xl bg-gray-800 text-center basis-1/2">
           {imageURLs && (
-            <div className={`flex flex-row bg-transparent`}>
+            <div className='bg-inherit'>
               {imageURLs.map((url) => (
-                <div key={url} className="flex-1">
                   <img
                     src={url}
-                    className="w-full h-full border border-black object-contain mb-1 hover:object-fill"
+                    className="h-28 w-full brightness-[.8] object-contain rounded-t-3xl mb-1 hover:brightness-100 transition duration-500 ease-in-out"
                     key={v4()}
                   />
-                </div>
               ))}
             </div>
           )}
-          <div className="flex lg:flex-col bg-gray-800 justify-around items-center border">
-            <p className="text-white font-semibold text-xl bg-transparent px-2">
+          <div className="flex flex-col bg-slate-700 justify-around items-center">
+            <p className="text-white font-semibold text-xl bg-inherit px-2">
               {product.name}
             </p>
-            <div className="flex items-center bg-transparent gap-x-4">
-              <h4 className="bg-gray-800 text-gray-400 md:text-3xl">
+            <div className="flex items-center bg-inherit gap-x-4">
+              <h4 className="bg-inherit text-gray-200 md:text-3xl">
                 {product.price} €
               </h4>
-              <p className="bg-gray-800 text-gray-400 text-sm pr-2">
+              <p className="bg-inherit text-gray-400 text-sm pr-2">
                 Disponibili: {product.quantity}
               </p>
             </div>
@@ -144,7 +146,9 @@ export function ProductCard({ product, user }) {
       </NavLink>
 
       {/** USER ICON */}
-      <div className="absolute top-0 left-0 flex-none flex justify-center items-center w-12 h-12 rounded-full bg-gradient-to-tr from-yellow-700 to-red-700 transform hover:scale-150 transition ease-in-out duration-200">
+      <div className="absolute -top-3 -left-3 flex-none flex justify-center items-center w-12 h-12 rounded-full 
+      bg-gradient-to-tr from-yellow-400 to-red-700 transform hover:scale-150 transition ease-in-out duration-200
+      ">
         {publisher && (
           <NavLink
             to={`/accounts/${product.publisherId}`}
@@ -160,7 +164,7 @@ export function ProductCard({ product, user }) {
       </div>
 
       {/* --- SIDE PANEL --- */}
-      <div className="flex-none flex h-1/12 justify-around items-center border py-1 rounded-b-xl">
+      <div className="flex-1 flex bg-slate-600 justify-around items-center py-1 rounded-b-xl">
         <input
           type="number"
           className="border rounded text-center text-white font-bold focus:border-teal-400"
@@ -174,16 +178,18 @@ export function ProductCard({ product, user }) {
           }}
         />
         <button
-          className="flex w-12 h-12 border rounded-full text-white justify-center items-center hover:bg-blue-500 hover:shadow p-3 my-2"
+          className="flex border rounded-full text-white justify-center items-center hover:bg-blue-500 hover:shadow-xl p-1 transition ease-in-out duration-200"
           onClick={addToCart}
         >
-          <ShoppingCartIcon className="w-8 h-8 bg-transparent" />
+          <ShoppingCartIcon className="w-5 h-5 bg-transparent" />
         </button>
       </div>
+      {/* <div className='flex-1 bg-transparent'>
       {showMessage && (
         <p className="text-white">Elemento aggiunto al carrello.</p>
       )}
       {navigateToSignIn && <Navigate to="/" />}
+      </div> */}
     </div>
   );
 }
