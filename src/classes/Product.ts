@@ -5,6 +5,7 @@ export class Product {
   description: string;
   price: number;
   quantity: number;
+  quantityType: string;
   readonly id: string;
   image: string;
   category: string[];
@@ -16,6 +17,7 @@ export class Product {
     d = '',
     p = 0,
     q = 0,
+    qtyType = '',
     id = '',
     im = '',
     c = [],
@@ -26,6 +28,7 @@ export class Product {
     this.price = p;
     this.description = d;
     this.quantity = q;
+    this.quantityType = qtyType;
     this.id = id;
     this.image = im;
     this.category = c;
@@ -41,6 +44,7 @@ export const productConverter = {
       description: product.description,
       price: product.price,
       quantity: product.quantity,
+      quantityType: product.quantityType,
       category: product.category,
       publisherId: product.publisherId,
       photoURLs: product.photoURLs,
@@ -48,17 +52,17 @@ export const productConverter = {
   },
   fromFirestore: (snapshot, options) => {
     const data = snapshot.data(options);
-    const product = new Product(
-      data.name,
-      data.description,
-      data.price,
-      data.quantity,
-      snapshot.id,
-      data.image,
-      data.category,
-      data.publisherId,
-      data.photoURLs
+    return new Product(
+        data.name,
+        data.description,
+        data.price,
+        data.quantity,
+        data.quantityType,
+        snapshot.id,
+        data.image,
+        data.category,
+        data.publisherId,
+        data.photoURLs
     );
-    return product;
   },
 };

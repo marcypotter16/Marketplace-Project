@@ -16,9 +16,7 @@ export const Publish = () => {
     console.log(productId, 'productId');
     e.preventDefault();
     input.publisherId = params.id!;
-    console.warn(photoRef.current.files);
-    // manageImageUpload(photoRef.current.files);
-    console.warn('input:', input);
+    input.quantityType = quantityType;
     for (const file of photoRef.current.files) {
       const imageId = file.name + v4();
       const imageRef = ref(storage, 
@@ -92,6 +90,7 @@ export const Publish = () => {
                   min="0"
                   name="quantity"
                   value={input.quantity}
+                  step={input.quantityType == 'kg' ? '0.01' : '1'}
                   onChange={(e) => handleChange(e)}
                 />
               </div>
@@ -118,6 +117,7 @@ export const Publish = () => {
                   className="border border-gray-400 block py-2 px-4 w-full rounded-r text-white focus:outline-none focus:border-teal-500"
                   type="number"
                   name="price"
+                  step={0.01}
                   min="0"
                   value={input.price}
                   onChange={(e) => handleChange(e)}
@@ -240,22 +240,6 @@ function DropdownMenu({ selected, select }) {
                   )}
                 >
                   Pz
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  onClick={() => {
-                    console.log('HG');
-                    select('hg');
-                  }}
-                  className={classNames(
-                    active ? 'bg-teal-400 text-gray-900' : 'text-gray-100',
-                    'rounded-b block px-4 text-xs cursor-pointer'
-                  )}
-                >
-                  Hg
                 </a>
               )}
             </Menu.Item>

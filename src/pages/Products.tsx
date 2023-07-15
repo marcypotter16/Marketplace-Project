@@ -138,6 +138,7 @@ export function ProductCard({ product, user }) {
                   <img
                     src={url}
                     className="h-28 w-full brightness-[.8] object-contain rounded-t-3xl mb-1 hover:brightness-100 transition duration-500 ease-in-out"
+                    alt={product.name}
                     key={v4()}
                   />
               ))}
@@ -152,7 +153,7 @@ export function ProductCard({ product, user }) {
                 {product.price} €
               </h4>
               <p className="bg-inherit text-gray-400 text-sm pr-2">
-                Disponibili: {product.quantity}
+                Disponibili: {product.quantity} {product.quantityType}
               </p>
             </div>
           </div>
@@ -181,7 +182,8 @@ export function ProductCard({ product, user }) {
       <div className="flex-1 flex bg-slate-600 justify-around items-center py-1 rounded-b-xl">
         <input
           type="number"
-          className="border rounded text-center text-white font-bold focus:border-teal-400"
+          step={product.quantityType === 'kg' ? '0.01' : '1'}
+          className="border rounded text-center text-white shadow-xl font-bold mx-2 w-16 bg-transparent"
           placeholder={`${selectedQuantity}`}
           onChange={(e) => {
             if (
