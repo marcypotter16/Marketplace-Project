@@ -51,7 +51,7 @@ export function Products({ user }) {
           <MagnifyingGlassIcon className="w-4 h-4 bg-transparent" />
         </div>
       </div>
-      <div className="relative px-10 py-2 space-y-8 flex flex-wrap justify-around min-w-fit bg-slate-800 lg:flex-row sm:flex-col mx-20 my-5 m-2 rounded-3xl">
+      <div className="relative px-10 py-2 flex flex-wrap justify-around min-w-fit bg-slate-800 lg:grid lg:grid-flow-col sm:flex-col mx-20 my-5 rounded-3xl">
         {/*<div id="cerchio-1" className='absolute border w-96 h-96 top-40 left-2 rounded-full bg-purple-600 mix-blend-multiply'>
           </div>
         <div id="cerchio-2" className='absolute w-64 h-64 top-0 left-0 rounded-full blur-xl bg-orange-500 mix-blend-multiply'></div>
@@ -115,11 +115,11 @@ export function ProductCard({ product, user }) {
   return (
     // Container
 
-    <div className="flex flex-col border-white relative w-64 h-56 bg-transparent rounded-3xl m-2 shadow-2xl shadow-zinc-950">
+    <div className="flex flex-col border-white relative w-64 h-56 bg-transparent rounded-3xl mx-4 mt-2 mb-4 shadow-2xl shadow-zinc-950">
       <NavLink to={`/products/${product.id}`} className={"flex-1"}>
         <div className="rounded-3xl bg-gray-800 text-center basis-1/2">
           {imageURLs && (
-            <div className='bg-inherit'>
+            <div className='bg-transparent'>
               {imageURLs.map((url) => (
                   <img
                     src={url}
@@ -178,7 +178,7 @@ export function ProductCard({ product, user }) {
           }}
         />
         <button
-          className="flex border rounded-full text-white justify-center items-center hover:bg-blue-500 hover:shadow-xl p-1 transition ease-in-out duration-200"
+          className="flex border border-slate-400 shadow rounded-full text-white justify-center items-center hover:bg-sky-500 hover:shadow-xl p-1 transition ease-in-out duration-200  hover:drop-shadow-2xl hover:ring-2 hover:ring-sky-700 hover:ring-offset-2 hover:ring-opacity-50"
           onClick={addToCart}
         >
           <ShoppingCartIcon className="w-5 h-5 bg-transparent" />
