@@ -70,6 +70,7 @@ export const productConverter = {
         data.quantityType,
         data.location,
         data.publishDate,
+        data.deleteAfterAWeek,
         snapshot.id,
         data.image,
         data.category,
