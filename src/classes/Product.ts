@@ -5,7 +5,7 @@ export class Product {
   description: string;
   price: number;
   quantity: number;
-  quantityType: string;
+  quantityType: 'kg' | 'g' | 'l' | 'ml' | 'pz';
   readonly id: string;
   image: string;
   category: string[];

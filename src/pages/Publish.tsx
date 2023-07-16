@@ -209,25 +209,8 @@ function DropdownMenu({ selected, select }) {
       >
         <Menu.Items className="absolute ml-12 origin-top-left rounded-md border bg-black focus:outline-none">
           <div className="bg-transparent">
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  onClick={() => {
-                    console.log('KG');
-                    select('kg');
-                  }}
-                  className={classNames(
-                    active
-                      ? 'bg-teal-400 text-gray-900'
-                      : 'text-gray-100 bg-transparent',
-                    'rounded-t  block px-4 text-xs  cursor-pointer'
-                  )}
-                >
-                  Kg
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
+            {['kg', 'g', 'l', 'ml', 'pz'].map((unit) => (
+              <Menu.Item>
               {({ active }) => (
                 <a
                   onClick={() => {
@@ -239,10 +222,10 @@ function DropdownMenu({ selected, select }) {
                     'block px-4 text-xs cursor-pointer'
                   )}
                 >
-                  Pz
+                  {unit}
                 </a>
               )}
-            </Menu.Item>
+            </Menu.Item>))}
           </div>
         </Menu.Items>
       </Transition>
