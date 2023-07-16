@@ -1,39 +1,47 @@
 // import { DO_NOT_USE_OR_YOU_WILL_BE_FIRED_EXPERIMENTAL_FORM_ACTIONS } from 'react';
 
+import { GeoPoint } from "firebase/firestore";
+
 export class Product {
   name: string;
   description: string;
   price: number;
   quantity: number;
-  quantityType: 'kg' | 'g' | 'l' | 'ml' | 'pz';
+  quantityType: string;
+  location: { lat: number; lng: number};
+  publishDate: Date;
+  deleteAfterAWeek: boolean;
   readonly id: string;
   image: string;
   category: string[];
   publisherId: string;
-  photoURLs: string[];
 
   constructor(
     n = '',
     d = '',
     p = 0,
     q = 0,
-    qtyType = '',
+    qtyType = 'pz',
+    loc: { lat: number; lng: number} = { lat: 0, lng: 0 },
+    pubDate = new Date(),
+    delWeek = false,
     id = '',
     im = '',
     c = [],
     pid = '',
-    purls = []
   ) {
     this.name = n;
     this.price = p;
     this.description = d;
     this.quantity = q;
     this.quantityType = qtyType;
+    this.location = loc;
+    this.publishDate = pubDate;
+    this.deleteAfterAWeek = delWeek;
     this.id = id;
     this.image = im;
     this.category = c;
     this.publisherId = pid;
-    this.photoURLs = purls;
   }
 }
 
@@ -45,9 +53,11 @@ export const productConverter = {
       price: product.price,
       quantity: product.quantity,
       quantityType: product.quantityType,
+      location: new GeoPoint(product.location.lat, product.location.lng),
+      publishDate: product.publishDate,
+      deleteAfterAWeek: product.deleteAfterAWeek,
       category: product.category,
       publisherId: product.publisherId,
-      photoURLs: product.photoURLs,
     };
   },
   fromFirestore: (snapshot, options) => {
@@ -58,11 +68,12 @@ export const productConverter = {
         data.price,
         data.quantity,
         data.quantityType,
+        data.location,
+        data.publishDate,
         snapshot.id,
         data.image,
         data.category,
         data.publisherId,
-        data.photoURLs
     );
   },
 };
