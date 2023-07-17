@@ -15,7 +15,7 @@ export const Publish = () => {
 
 	function submit(e: FormEvent<HTMLFormElement>) {
 		const today = new Date();
-		var productId = v4();
+		const productId = v4();
 		e.preventDefault();
 		input.publisherId = params.id!;
 		input.quantityType = quantityType;
@@ -139,11 +139,12 @@ export const Publish = () => {
 					</div>
 				</div>
 
-				{/* CATEGORIE */}
-				<div>
+				{/* CATEGORIE && SELEZIONE PROVINCIA */}
+				<div className='flex'>
+					<div>
 					<label className='text-gray-200'>Categorie: </label>
 					<input
-						className='border border-gray-400 text-white block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+						className='border border-gray-400 text-white block py-2 px-4 rounded focus:outline-none focus:border-teal-500'
 						type='text'
 						name='category'
 						value={input.category}
@@ -152,6 +153,8 @@ export const Publish = () => {
 					<label className='text-gray-600 text-sm'>
 						Separare le categorie con virgole, ad esempio: cibo,ortaggi,...
 					</label>
+					<label className='text-gray-200'>Provincia di distribuzione</label>
+					</div>
 				</div>
 
 				{/* FOTO */}
