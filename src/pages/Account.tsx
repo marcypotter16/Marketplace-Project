@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { User, userConverter } from "../classes/User";
 import { doc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../Utils/firebase.ts";
 import { productsGlobal } from "../App";
 import { ProductCard } from "./ProductsPage/ProductCard";
 

@@ -1,7 +1,7 @@
 import { createContext, useEffect } from "react";
 import { Product, productConverter } from "../classes/Product";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../Utils/firebase.ts";
 import { NavLink } from "react-router-dom";
 
 export function Home() {

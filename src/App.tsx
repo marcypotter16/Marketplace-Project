@@ -1,6 +1,6 @@
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { Link, NavLink, Route, Routes } from "react-router-dom";
-import { auth, db } from "./firebase";
+import { auth, db } from "./Utils/firebase.ts";
 import { Account } from "./pages/Account";
 import { MyAccount } from "./pages/MyAccount";
 import { Cart } from "./pages/Cart";

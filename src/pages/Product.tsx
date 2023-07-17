@@ -1,6 +1,6 @@
 import { useDocumentData } from "react-firebase-hooks/firestore";
 import { useLocation, useParams } from "react-router-dom";
-import { db } from "../firebase";
+import { db } from "../Utils/firebase.ts";
 import { Product, productConverter } from "../classes/Product";
 import { doc } from "firebase/firestore";
 

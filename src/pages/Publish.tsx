@@ -2,7 +2,7 @@ import { useState, useRef, ChangeEvent, FormEvent } from "react";
 import { useParams } from "react-router-dom";
 import { Product, productConverter } from "../classes/Product";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
-import { db, storage } from "../firebase";
+import { db, storage } from "../Utils/firebase.ts";
 import { v4 } from "uuid";
 import { increment, updateDoc } from "firebase/firestore";
 

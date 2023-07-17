@@ -5,7 +5,7 @@ import { TrashIcon, WrenchIcon } from '@heroicons/react/20/solid';
 import { Order } from '../classes/Order';
 import { Product } from '../classes/Product';
 import { User, userConverter } from '../classes/User';
-import { db, storage } from '../firebase';
+import { db, storage } from '../Utils/firebase.ts';
 import { BellAlertIcon } from '@heroicons/react/24/outline';
 import { doc, getDoc, updateDoc, addDoc, increment, collection, setDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { getDownloadURL, list, ref } from 'firebase/storage';

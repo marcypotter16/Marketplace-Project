@@ -1,5 +1,5 @@
 import { useDocumentData } from "react-firebase-hooks/firestore";
-import { db, storage } from "../../firebase";
+import { db, storage } from "../../Utils/firebase.ts";
 import { User, userConverter } from "../../classes/User";
 import { NavLink, Navigate } from "react-router-dom";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";

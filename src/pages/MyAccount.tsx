@@ -1,6 +1,6 @@
 import { useDocumentData } from 'react-firebase-hooks/firestore';
 import { User, userConverter } from '../classes/User';
-import { db } from '../firebase';
+import { db } from '../Utils/firebase.ts';
 import { loggedUser } from './SignIn';
 import { doc } from 'firebase/firestore';
 
