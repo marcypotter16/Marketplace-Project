@@ -27,8 +27,8 @@ export function ProductCard({ product, user }) {
 	}
 
 	if (publisherRef) {
-		const [publisher, loading, error] = useDocumentData<User>(publisherRef);
-		console.warn(loading, error);
+		const [publisher] = useDocumentData<User>(publisherRef);
+
 		const today = new Date();
 		useEffect(() => {
 			const imageRef = ref(
@@ -83,9 +83,17 @@ export function ProductCard({ product, user }) {
 							<p className='text-white font-semibold text-xl bg-inherit px-2'>
 								{product.name}
 							</p>
-							<div className='flex items-center bg-inherit gap-x-4'>
+							<div className='relative flex items-center bg-inherit gap-x-4'>
 								<h4 className='bg-inherit text-gray-200 md:text-3xl'>
-									{product.price} €
+									{Math.floor(product.price)}
+									&thinsp; €
+									<div className='absolute text-center bg-transparent top-0 left-3 text-xs text-gray-400'>
+										{product.price - Math.floor(product.price) === 0
+											? null
+											: (product.price - Math.floor(product.price))
+													.toFixed(2)
+													.substring(2)}
+									</div>
 								</h4>
 								<p className='bg-inherit text-gray-400 text-sm pr-2'>
 									Disponibili: {product.quantity} {product.quantityType}
@@ -117,19 +125,27 @@ export function ProductCard({ product, user }) {
 
 				{/* --- SIDE PANEL --- */}
 				<div className='flex-1 flex bg-slate-600 justify-around items-center py-1 rounded-b-xl'>
-					<input
-						type='number'
-						step={product.quantityType === "kg" ? "0.01" : "1"}
-						className='border rounded text-center text-white shadow-xl font-bold mx-2 w-16 bg-transparent'
-						placeholder={`${selectedQuantity}`}
-						onChange={(e) => {
-							if (
-								Number(e.target.value) <= product.quantity &&
-								Number(e.target.value) >= 0
-							)
-								setSelectedQuantity(Number(e.target.value));
-						}}
-					/>
+					<div className='flex flex-col justify-center items-center bg-inherit'>
+						<input
+							type='number'
+							step={product.quantityType === "kg" ? "0.01" : "1"}
+							className='border rounded text-center text-white shadow-xl font-bold mx-2 bg-transparent'
+							placeholder={`${selectedQuantity}`}
+							onChange={(e) => {
+								if (
+									Number(e.target.value) <= product.quantity &&
+									Number(e.target.value) >= 0
+								)
+									setSelectedQuantity(Number(e.target.value));
+							}}
+						/>
+						<label
+							htmlFor='input'
+							className='text-xs text-slate-400 bg-transparent'
+						>
+							Quantità desiderata
+						</label>
+					</div>
 					<button
 						className='flex border border-slate-400 shadow rounded-full text-white justify-center items-center hover:bg-sky-500 hover:shadow-xl p-1 transition ease-in-out duration-200  hover:drop-shadow-2xl hover:ring-2 hover:ring-sky-700 hover:ring-offset-2 hover:ring-opacity-50'
 						onClick={addToCart}

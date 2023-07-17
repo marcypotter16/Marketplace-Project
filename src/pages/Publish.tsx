@@ -4,6 +4,7 @@ import { Product, productConverter } from "../classes/Product";
 import { CheckCircleIcon, XCircleIcon } from "@heroicons/react/24/outline";
 import { db, storage } from "../firebase";
 import { v4 } from "uuid";
+import { increment, updateDoc } from "firebase/firestore";
 
 export const Publish = () => {
 	const params = useParams();
@@ -32,10 +33,17 @@ export const Publish = () => {
       .doc(productId)
       .set(input)
       .then((_res) => alert('Added: ' + input.name)); */
+
+		// Add the product to the database
 		setDoc(
 			doc(db, "products", productId).withConverter(productConverter),
 			input
 		).then((_res) => alert("Added: " + input.name));
+
+		// Increment the product count
+		updateDoc(doc(db, "products", "product-count"), {
+			count: increment(1),
+		}).then((_res) => alert("Incremented product count"));
 	}
 
 	function handleChange(
