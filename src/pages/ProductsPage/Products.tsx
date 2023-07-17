@@ -14,8 +14,9 @@ import { v4 } from "uuid";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { productsGlobal, productsQuery } from "../../App";
 import { Navigate } from "react-router-dom";
+import {withErrorBoundary} from "react-error-boundary";
 
-export function Products({ user }) {
+function ProductsWithoutErrorBounding({ user }) {
 	// const [searchQuery, setSearchQuery] = useState("");
 	const searchQueryRef = useRef<HTMLInputElement>(null);
 	const [pageCount, setPageCount] = useState(1);
@@ -42,7 +43,7 @@ export function Products({ user }) {
 		limit(9)
 	).withConverter(productConverter);
 	const [productsData] = useCollectionData<Product>(q); */
-	var productsLocal = null;
+	let productsLocal = null;
 	try {
 		productsLocal = useContext(productsGlobal);
 	} catch (e) {
@@ -81,7 +82,7 @@ export function Products({ user }) {
 		});
 	}, [pageCount]);
 	useEffect(() => {
-		if (productsLocal && !products) {
+		if (productsLocal) {
 			setProducts(productsLocal);
 		}
 	}, [refreshProducts]);
@@ -178,4 +179,7 @@ export function Products({ user }) {
 		</div>
 	);
 }
-export { productsGlobal };
+
+export const Products = withErrorBoundary(ProductsWithoutErrorBounding, {
+	fallback: <Navigate to='/'></Navigate>
+})

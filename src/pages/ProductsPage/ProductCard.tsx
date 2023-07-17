@@ -9,12 +9,33 @@ import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, list, ref } from "firebase/storage";
 
 export function ProductCard({ product, user }) {
+	// Function for adding to Cart
+	function addToCart() {
+			if (user) {
+				updateDoc(doc(db, "users", user.uid), {
+					cart: arrayUnion({
+						id: product.id,
+						name: product.name,
+						quantity: selectedQuantity,
+						publisherId: product.publisherId,
+						price: product.price,
+					}),
+				}).then((_res) => {
+					setShowMessage(true);
+					console.log(showMessage);
+				});
+			} else {
+				alert("Devi prima effettuare il login.");
+				setNavigateToSignIn(true);
+			}
+		}
+
 	const [selectedQuantity, setSelectedQuantity] = useState(0);
 	const [navigateToSignIn, setNavigateToSignIn] = useState(false);
 	const [showMessage, setShowMessage] = useState(false);
 	const [imageURLs, setImageURLs] = useState([]);
 
-	var publisherRef;
+	let publisherRef;
 	try {
 		publisherRef = doc(db, "users", product.publisherId).withConverter(
 			userConverter
@@ -43,25 +64,7 @@ export function ProductCard({ product, user }) {
 				});
 			});
 		}, []);
-		function addToCart() {
-			if (user) {
-				updateDoc(doc(db, "users", user.uid), {
-					cart: arrayUnion({
-						id: product.id,
-						name: product.name,
-						quantity: selectedQuantity,
-						publisherId: product.publisherId,
-						price: product.price,
-					}),
-				}).then((_res) => {
-					setShowMessage(true);
-					console.log(showMessage);
-				});
-			} else {
-				alert("Devi prima effettuare il login.");
-				setNavigateToSignIn(true);
-			}
-		}
+
 		return (
 			// Container
 			<div className='flex flex-col border-white relative w-64 h-56 bg-transparent rounded-3xl mx-4 mt-2 mb-4 shadow-2xl shadow-zinc-950'>
@@ -134,7 +137,7 @@ export function ProductCard({ product, user }) {
 						<input
 							type='number'
 							step={product.quantityType === "kg" ? "0.01" : "1"}
-							className='border rounded text-center text-white shadow-xl font-bold mx-2 bg-transparent'
+							className='border rounded text-center w-16 text-white shadow-xl font-bold mx-2 bg-transparent lg:w-40'
 							placeholder={`${selectedQuantity}`}
 							onChange={(e) => {
 								if (
