@@ -65,7 +65,11 @@ export function ProductCard({ product, user }) {
 		return (
 			// Container
 			<div className='flex flex-col border-white relative w-64 h-56 bg-transparent rounded-3xl mx-4 mt-2 mb-4 shadow-2xl shadow-zinc-950'>
-				<NavLink to={`/products/${product.id}`} className={"flex-1"}>
+				<NavLink
+					to={`/products/${product.id}`}
+					state={{ product: product }}
+					className={"flex-1"}
+				>
 					<div className='rounded-3xl bg-gray-800 text-center basis-1/2'>
 						{imageURLs && (
 							<div className='bg-transparent'>
@@ -123,7 +127,8 @@ export function ProductCard({ product, user }) {
 					)}
 				</div>
 
-				{/* --- SIDE PANEL --- */}
+				{/* --- SIDE PANEL ---
+				 */}
 				<div className='flex-1 flex bg-slate-600 justify-around items-center py-1 rounded-b-xl'>
 					<div className='flex flex-col justify-center items-center bg-inherit'>
 						<input

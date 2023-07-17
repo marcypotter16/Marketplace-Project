@@ -1,6 +1,8 @@
 import { collection, endBefore, getDocs, limit, query, startAfter, where } from "firebase/firestore"
 import { db } from "../../firebase"
 import { Product, productConverter } from "../../classes/Product"
+import { createContext } from "react"
+import { setProductsGlobal } from "../../App"
 
 export const queryProducts = ((queryString: string, setProductsData: React.Dispatch<React.SetStateAction<Product[]>>) => {
     // USE THIS IF YOU WANT A PARTIAL MATCH
@@ -13,7 +15,7 @@ export const queryProducts = ((queryString: string, setProductsData: React.Dispa
             products.push(doc.data())
         })
         setProductsData(products)
-        console.log(products)
+        setProductsGlobal(products)
     })
 })
 

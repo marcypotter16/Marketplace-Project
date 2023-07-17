@@ -4,7 +4,7 @@ import { useDocumentData } from "react-firebase-hooks/firestore";
 import { User, userConverter } from "../classes/User";
 import { doc } from "firebase/firestore";
 import { db } from "../firebase";
-import { productsGlobal } from "./ProductsPage/Products";
+import { productsGlobal } from "../App";
 import { ProductCard } from "./ProductsPage/ProductCard";
 
 export function Account() {

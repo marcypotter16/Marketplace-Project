@@ -1,9 +1,9 @@
-import { useCollectionData } from "react-firebase-hooks/firestore";
-import { db } from "../../firebase";
-import { Product, productConverter } from "../../classes/Product";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { createContext, useEffect, useRef, useState } from "react";
-import { collection, getDocs, limit, query, orderBy } from "firebase/firestore";
+import {
+	ArrowPathIcon,
+	MagnifyingGlassIcon,
+} from "@heroicons/react/24/outline";
+import { useContext, useEffect, useRef, useState } from "react";
+import { getDocs } from "firebase/firestore";
 import { ProductCard } from "./ProductCard";
 import {
 	loadNext9Products,
@@ -12,8 +12,8 @@ import {
 } from "./ProductsAuxFuncs";
 import { v4 } from "uuid";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-
-export var productsGlobal: React.Context<Product[]>;
+import { productsGlobal, productsQuery } from "../../App";
+import { Navigate } from "react-router-dom";
 
 export function Products({ user }) {
 	// const [searchQuery, setSearchQuery] = useState("");
@@ -22,6 +22,9 @@ export function Products({ user }) {
 	const [lastDoc, setLastDoc] = useState(null);
 	const [firstDoc, setFirstDoc] = useState(null);
 	const [disableNext, setDisableNext] = useState(false);
+	const [refreshProducts, setRefreshProducts] = useState(false);
+	// Might be useful to refactor to useNavigate
+	const [navigateToHome, setNavigateToHome] = useState(false);
 	/* const [productsCount, setProductsCount] = useState(0);
 	const [numPages, setNumPages] = useState(0); */
 	/* const query = db
@@ -33,14 +36,19 @@ export function Products({ user }) {
 		limit(9),
 		orderBy("publishDate", "desc")
 	).withConverter(productConverter); */
-	const q = query(
+	/* const q = query(
 		collection(db, "products"),
 		orderBy("name"),
 		limit(9)
 	).withConverter(productConverter);
-	const [productsData] = useCollectionData<Product>(q);
-	const [products, setProducts] = useState(productsData);
-	productsGlobal = createContext(products);
+	const [productsData] = useCollectionData<Product>(q); */
+	var productsLocal = null;
+	try {
+		productsLocal = useContext(productsGlobal);
+	} catch (e) {
+		setNavigateToHome(true);
+	}
+	const [products, setProducts] = useState(null);
 	/* useEffect(() => {
 		getDoc(doc(db, "products", "product-count")).then((snapshot) => {
 			setProductsCount(snapshot.data().count);
@@ -48,7 +56,7 @@ export function Products({ user }) {
 		});
 	}, []); */
 	useEffect(() => {
-		getDocs(q).then((docSnapshots) => {
+		getDocs(productsQuery).then((docSnapshots) => {
 			if (docSnapshots.docs.length > 0) {
 				setLastDoc(docSnapshots.docs[docSnapshots.docs.length - 1]);
 				if (docSnapshots.docs.length < 9) {
@@ -73,12 +81,14 @@ export function Products({ user }) {
 		});
 	}, [pageCount]);
 	useEffect(() => {
-		if (productsData) {
-			setProducts(productsData);
+		if (productsLocal && !products) {
+			setProducts(productsLocal);
 		}
-	}, [productsData]);
+	}, [refreshProducts]);
 	return (
 		<div className='relative flex flex-col items-center py-10 mx-2'>
+			{navigateToHome && <Navigate to='/' />}
+
 			{/** PAGE COUNT */}
 			<div className='flex justify-center items-center text-slate-400 text-sm absolute top-5 right-8'>
 				<h4>Pagina {pageCount}</h4>
@@ -86,6 +96,18 @@ export function Products({ user }) {
 			<h1 className='text-gray-100 text-3xl font-semibold text-center py-2'>
 				La Piazza
 			</h1>
+
+			{/** REFRESH PRODUCTS */}
+			<button
+				className='absolute top-5 left-8 text-white'
+				onClick={() => {
+					setRefreshProducts(!refreshProducts);
+					console.log("clicked refresh products");
+					console.log("products global: ", productsGlobal);
+				}}
+			>
+				<ArrowPathIcon className='w-4 h-4 bg-transparent' />
+			</button>
 
 			{/** SEARCH BAR */}
 			<div className='flex'>
@@ -156,3 +178,4 @@ export function Products({ user }) {
 		</div>
 	);
 }
+export { productsGlobal };

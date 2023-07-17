@@ -1,6 +1,6 @@
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { Link, NavLink, Route, Routes } from "react-router-dom";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import { Account } from "./pages/Account";
 import { MyAccount } from "./pages/MyAccount";
 import { Cart } from "./pages/Cart";
@@ -10,12 +10,34 @@ import { Products } from "./pages/ProductsPage/Products";
 import { Publish } from "./pages/Publish";
 import { SignIn } from "./pages/SignIn";
 import "./style.css";
+import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
+import { useEffect, createContext } from "react";
+import { Product, productConverter } from "./classes/Product";
+
+export var productsGlobal: React.Context<Product[]>;
+export const setProductsGlobal = (products: Product[]) => {
+	productsGlobal = createContext(products);
+};
+export const productsQuery = query(
+	collection(db, "products"),
+	orderBy("name"),
+	limit(9)
+).withConverter(productConverter);
 
 export default function App() {
 	const [SignInWithGoogle, info] = useSignInWithGoogle(auth);
 	const signOut = () => {
 		auth.signOut();
 	};
+	useEffect(() => {
+		getDocs(productsQuery).then((docSnapshots) => {
+			const products = [];
+			docSnapshots.docs.forEach((doc) => {
+				products.push(doc.data());
+			});
+			productsGlobal = createContext(products);
+		});
+	}, []);
 	return (
 		<>
 			<div id='top-bar' className='flex flex-row w-screen'>
