@@ -1,14 +1,10 @@
-import {
-	ArrowPathIcon,
-	MagnifyingGlassIcon,
-} from "@heroicons/react/24/outline";
 import { useContext, useEffect, useRef, useState } from "react";
 import { getDocs } from "firebase/firestore";
 import { ProductCard } from "./ProductCard";
 import {
 	loadNext9Products,
 	loadPrev9Products,
-	queryProducts,
+
 } from "../../Utils/ProductsAuxFuncs.ts";
 import { v4 } from "uuid";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
