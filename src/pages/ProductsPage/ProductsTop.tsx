@@ -1,9 +1,9 @@
 import {productsGlobal} from "../../App.tsx";
 import {ArrowPathIcon, MagnifyingGlassIcon} from "@heroicons/react/24/outline";
-import {queryProducts} from "../../Utils/ProductsAuxFuncs.ts";
-import {provincie} from "../../Utils/ProvincieLoader.ts";
+import {queryProducts, queryProductsByProvincia} from "../../Utils/ProductsAuxFuncs.ts";
+import {province} from "../../Utils/province-sigle";
 
-export const ProductsTop = ({ pageCount, setRefreshProducts, refreshProducts, searchQueryRef, setProducts }) => {
+export const ProductsTop = ({ pageCount, setRefreshProducts, refreshProducts, searchQueryRef, setProducts, setCurrentQuery }) => {
 	return (
 		<>
 		{/** PAGE COUNT */}
@@ -49,12 +49,12 @@ export const ProductsTop = ({ pageCount, setRefreshProducts, refreshProducts, se
 					>
 						<MagnifyingGlassIcon className='w-4 h-4 bg-transparent' />
 					</button>
-					<button onClick={() => {console.log('provincie: ', provincie)}}>Print provincie</button>
+					<button onClick={() => {console.log('provincie: ', province)}}>Print provincie</button>
 				</form>
 				<form
 					onSubmit={(e) => {
 						e.preventDefault();
-						queryProductsByProvincia(searchQueryRef.current.value, setProducts);
+						queryProductsByProvincia(searchQueryRef.current.value, setProducts, setCurrentQuery);
 					}}
 					className='flex flex-nowrap w-full'
 				>
@@ -72,7 +72,7 @@ export const ProductsTop = ({ pageCount, setRefreshProducts, refreshProducts, se
 					>
 						<MagnifyingGlassIcon className='w-4 h-4 bg-transparent' />
 					</button>
-					<button onClick={() => {console.log('provincie: ', provincie)}}>Print provincie</button>
+					<button onClick={() => {console.log('provincie: ', province)}}>Print provincie</button>
 				</form>
 			</div>
 			</>

@@ -1,20 +1,8 @@
-import * as fs from 'fs';
-const provincieLoader = (filePath: string) => {
-    const provincies: {nome: string, sigla: string}[] = [];
-    const file = fs.readFileSync(filePath, 'utf-8');
-    const fileLines = file.split('\n');
-    fileLines.forEach((line) => {
-        provincies.push({
-            nome: line.split(',')[0],
-            sigla: line.split(',')[1],
-        });
-    });
-    return provincies;
-}
+import {createContext} from "react";
 
-async function readFileContent() {
+export async function readFileContent(filepath) {
     try {
-      const response = await fetch('./src/Utils/province-sigle.csv');
+      const response = await fetch(filepath);
       const text = await response.text();
       // console.log(text); // Do something with the file content
         const provincie: {nome: string, sigla: string}[] = [];
@@ -37,4 +25,4 @@ async function readFileContent() {
     }
   }
 
-export const provincie = await readFileContent();
+const province = null

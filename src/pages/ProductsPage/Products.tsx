@@ -48,7 +48,7 @@ function ProductsWithoutErrorBounding({ user }) {
 	try {
 		productsLocal = useContext(productsGlobal);
 	} catch (e) {
-		setNavigateToHome(true);
+		console.error(e);
 	}
 	const [products, setProducts] = useState(null);
 	/* useEffect(() => {
@@ -90,7 +90,7 @@ function ProductsWithoutErrorBounding({ user }) {
 	return (
 		<div className='relative flex flex-col items-center py-10 mx-2'>
 
-			<ProductsTop setProducts={setProducts} setRefreshProducts={setRefreshProducts} refreshProducts={refreshProducts} pageCount={pageCount} searchQueryRef={searchQueryRef} />
+			<ProductsTop setProducts={setProducts} setRefreshProducts={setRefreshProducts} refreshProducts={refreshProducts} pageCount={pageCount} searchQueryRef={searchQueryRef} setCurrentQuery={setCurrentQuery}/>
 
 			{/** PRODUCTS */}
 			<div className='relative px-10 py-2 justify-around min-w-fit bg-slate-800 lg:grid lg:grid-cols-3 sm:flex sm:flex-col mx-20 my-5 rounded-3xl'>
@@ -124,7 +124,7 @@ function ProductsWithoutErrorBounding({ user }) {
 					onClick={() => {
 						console.warn("clicked next", lastDoc);
 
-						loadNext9Products(lastDoc, setProducts);
+						loadNext9Products(lastDoc, setProducts, setCurrentQuery);
 						setPageCount(pageCount + 1);
 					}}
 					disabled={disableNext}

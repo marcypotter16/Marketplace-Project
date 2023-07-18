@@ -9,6 +9,7 @@ export class Product {
   quantity: number;
   quantityType: string;
   location: { lat: number; lng: number};
+  provincia: string;
   publishDate: Date;
   deleteAfterAWeek: boolean;
   readonly id: string;
@@ -23,6 +24,7 @@ export class Product {
     q = 0,
     qtyType = 'pz',
     loc: { lat: number; lng: number} = { lat: 0, lng: 0 },
+    provincia = '',
     pubDate = new Date(),
     delWeek = false,
     id = '',
@@ -36,6 +38,7 @@ export class Product {
     this.quantity = q;
     this.quantityType = qtyType;
     this.location = loc;
+    this.provincia = provincia;
     this.publishDate = pubDate;
     this.deleteAfterAWeek = delWeek;
     this.id = id;
@@ -54,6 +57,7 @@ export const productConverter = {
       quantity: product.quantity,
       quantityType: product.quantityType,
       location: new GeoPoint(product.location.lat, product.location.lng),
+      provincia: product.provincia,
       publishDate: product.publishDate,
       deleteAfterAWeek: product.deleteAfterAWeek,
       category: product.category,
@@ -69,6 +73,7 @@ export const productConverter = {
         data.quantity,
         data.quantityType,
         data.location,
+        data.provincia,
         data.publishDate,
         data.deleteAfterAWeek,
         snapshot.id,

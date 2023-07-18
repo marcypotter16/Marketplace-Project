@@ -1,13 +1,17 @@
 import {ChangeEvent, FormEvent, Fragment, useRef, useState} from "react";
 import {useParams} from "react-router-dom";
-import {Product, productConverter} from "../classes/Product";
+import {Product, productConverter} from "../../classes/Product.ts";
 import {CheckCircleIcon, XCircleIcon} from "@heroicons/react/24/outline";
-import {db, storage} from "../Utils/firebase.ts";
+import {db, storage} from "../../Utils/firebase.ts";
 import {v4} from "uuid";
 import {doc, increment, setDoc, updateDoc} from "firebase/firestore";
 import {Menu, Transition} from "@headlessui/react";
 import {ChevronDownIcon} from "@heroicons/react/20/solid";
 import {ref, uploadBytes} from "firebase/storage";
+import {province} from "../../Utils/province-sigle.ts";
+import {AutocompleteProvince} from "./Autocomplete.tsx";
+
+
 
 export const Publish = () => {
     const params = useParams();
@@ -15,6 +19,7 @@ export const Publish = () => {
     const [quantityType, setQuantityType] = useState("pz");
     const [deleteInAWeek, setDeleteInAWeek] = useState(false);
     const photoRef = useRef(null);
+    console.log('province: ', province);
 
     function submit(e: FormEvent<HTMLFormElement>) {
         const today = new Date();
@@ -146,7 +151,7 @@ export const Publish = () => {
 
                     {/* CATEGORIE && SELEZIONE PROVINCIA */}
                     <div className='flex'>
-                        <div className='border'>
+                        <div className='w-2/3'>
                             <label className='text-gray-200'>Categorie: </label>
                             <input
                                 className='border border-gray-400 text-white block py-2 px-4 rounded focus:outline-none focus:border-teal-500'
@@ -160,18 +165,13 @@ export const Publish = () => {
                             </label>
 
                         </div>
-                        <div className='border'>
+                        <div className='w-2/3'>
                             <label className='text-gray-200'>Provincia: </label>
-                            <input
-                                className='border border-gray-400 text-white block py-2 px-4 rounded focus:outline-none focus:border-teal-500'
-                                type='text'
-                                name='province'
-                                value=
-                                    onChange={(e) => handleChange(e)}
-                            />
+                            <AutocompleteProvince />
                             <label className='text-gray-600 text-sm'>
                                 Seleziona la provincia in cui si trova il prodotto</label>
                         </div>
+					</div>
 
                         {/* FOTO */}
                         <div>
@@ -191,6 +191,8 @@ export const Publish = () => {
                                 ref={photoRef}
                             />
                         </div>
+
+					{/* ELIMINA IN UNA SETTIMANA && SUBMIT */}
                         <div className='flex flex-col-reverse max-w-3xl justify-center'>
                             <div className='flex justify-center py-2 items-center space-x-2'>
                                 <input
@@ -226,7 +228,7 @@ export const Publish = () => {
                                 Inserisci Prodotto
                             </button>
                         </div>
-                    </div>
+
                 </form>
             </div>
         </>
@@ -239,7 +241,7 @@ function classNames(...classes) {
 
 function DropdownMenu({selected, select}) {
     return (
-        <Menu as='div' className='flex items-center inline-block text-left'>
+        <Menu as='div' className='flex items-center text-left'>
             <div className='flex items-center'>
                 <Menu.Button
                     className='flex h-full justify-center rounded-l bg-blue-900 px-3 py-2 text-sm font-semibold text-gray-400 hover:bg-gray-50'>

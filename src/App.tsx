@@ -7,7 +7,7 @@ import { Cart } from "./pages/Cart";
 import { Home } from "./pages/Home";
 import { ProductPage } from "./pages/Product";
 import { Products } from "./pages/ProductsPage/Products";
-import { Publish } from "./pages/Publish";
+import { Publish } from "./pages/PublishPage/Publish.tsx";
 import { SignIn } from "./pages/SignIn";
 import "./style.css";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
